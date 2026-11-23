@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "rule": "題目與答案只來自 Wiki。evidence 為 Wiki 檔案中必須存在的字串，由 scripts/validate.py 檢查。",
+    "workflow_nodes": "⑤ 查詢 Wiki → ⑥ 整理教學摘要"
+  },
+  "questions": [
+    {"id": "q01", "chapter": 1, "kind": "concept", "prompt": "韓文的初聲位置共有幾個子音字母？", "choices": ["14 個", "19 個", "21 個", "24 個"], "answer": 1,
+     "explain": "初聲子音字母共 19 個；21 是母音字母的數量。", "wiki": "01-introduction.md", "sources": ["S1"], "evidence": ["| 初聲子音字母 | 19 個 | [S1] |"]},
+    {"id": "q02", "chapter": 1, "kind": "concept", "prompt": "一個韓文音節的三個位置中，哪一個「可有可無」？", "choices": ["初聲", "中聲", "終聲（받침）", "三個都不可省略"], "answer": 2,
+     "explain": "音節 = 初聲 ＋ 中聲 ＋（終聲）。終聲可有可無，稱為 받침。", "wiki": "01-introduction.md", "sources": ["S1"], "evidence": ["（結尾子音，可有可無，稱為 받침）"]},
+    {"id": "q03", "chapter": 1, "kind": "concept", "prompt": "ㅇ 在「初聲」位置時，怎麼讀？", "choices": ["讀 ng", "不發音，只是佔位", "讀 h", "讀 r"], "answer": 1,
+     "explain": "初聲位置的 ㅇ 不發音，只是佔位。", "wiki": "01-introduction.md", "sources": ["S1"], "evidence": ["不發音"]},
+    {"id": "q04", "chapter": 1, "kind": "concept", "prompt": "根據 S7，韓文日（한글날）定在哪一天？", "choices": ["10 月 29 日", "10 月 9 日", "9 月上旬", "12 月"], "answer": 1,
+     "explain": "韓文日原定 10 月 29 日，後改為 10 月 9 日。", "wiki": "01-introduction.md", "sources": ["S7", "S9"], "evidence": ["10 月 9 日"]},
+    {"id": "q05", "chapter": 2, "kind": "letter", "prompt": "五個基本子音中，ㅁ 模仿的是什麼？", "choices": ["舌根靠近軟顎", "舌尖靠近齒齦", "閉合的嘴唇", "喉嚨"], "answer": 2,
+     "explain": "ㅁ 模仿閉合的嘴唇；ㄱ 是舌根、ㄴ 是舌尖、ㅇ 是喉嚨。", "wiki": "02-consonants.md", "sources": ["S2"], "evidence": ["ㅁ：閉合的嘴唇"]},
+    {"id": "q06", "chapter": 2, "kind": "letter", "prompt": "平音 ㄱ「加一畫」會變成哪個送氣音？", "choices": ["ㄲ", "ㅋ", "ㅎ", "ㄴ"], "answer": 1,
+     "explain": "加一畫成為送氣音（ㄱ→ㅋ）；ㄲ 是並寫兩次的緊音。", "wiki": "02-consonants.md", "sources": ["S2"], "evidence": ["ㄱ→ㅋ"]},
+    {"id": "q07", "chapter": 3, "kind": "letter", "prompt": "「天、地、人」三個基本元素中，ㅣ 代表什麼？", "choices": ["天", "地", "人", "嘴唇"], "answer": 2,
+     "explain": "ㆍ 是天、ㅡ 是地、ㅣ 是人（站立的）。", "wiki": "03-vowels.md", "sources": ["S3"], "evidence": ["（人，站立的）"]},
+    {"id": "q08", "chapter": 3, "kind": "letter", "prompt": "ㅐ 原為雙母音，由哪兩個母音構成？", "choices": ["ㅏ＋ㅣ", "ㅓ＋ㅣ", "ㅗ＋ㅣ", "ㅡ＋ㅣ"], "answer": 0,
+     "explain": "ㅐ 由 ㅏ＋ㅣ 構成；ㅔ 由 ㅓ＋ㅣ 構成。", "wiki": "03-vowels.md", "sources": ["S3"], "evidence": ["ㅏ＋ㅣ、ㅓ＋ㅣ"]},
+    {"id": "q09", "chapter": 4, "kind": "spelling", "prompt": "ㅎ（初聲）＋ ㅏ（中聲）＋ ㄴ（終聲）組成哪一個音節？", "choices": ["한", "핫", "하", "안"], "answer": 0,
+     "explain": "한 = ㅎ＋ㅏ＋ㄴ，是教材的拆解示例。", "wiki": "04-syllables.md", "sources": ["S9"], "evidence": ["한 = ㅎ＋ㅏ＋ㄴ"]},
+    {"id": "q10", "chapter": 4, "kind": "spelling", "prompt": "收音 ㅅ 出現在子音前面時，發成哪個代表音？", "choices": ["[ㄱ]", "[ㄷ]", "[ㅂ]", "[ㅅ]"], "answer": 1,
+     "explain": "ㅅ ㅆ ㅈ ㅊ ㅌ 作收音時讀 [ㄷ]（例：빗、빚、빛 在子音前都是 [빋]）。", "wiki": "04-syllables.md", "sources": ["S8"], "evidence": ["ㅅ、ㅆ、ㅈ、ㅊ、ㅌ"]},
+    {"id": "q11", "chapter": 4, "kind": "spelling", "prompt": "「빛이」依連音規則，讀成哪一個？", "choices": ["[빋이]", "[비시]", "[비치]", "[비지]"], "answer": 2,
+     "explain": "收音遇到母音開頭的助詞會連到下一音節：빛이 → [비치]。[비시] 是 빗이，[비지] 是 빚이。", "wiki": "04-syllables.md", "sources": ["S8"], "evidence": ["빛이→[비치]"]},
+    {"id": "q12", "chapter": 5, "kind": "vocab", "prompt": "單字「물」的中文意思是？", "choices": ["火", "水", "米飯", "牛奶"], "answer": 1,
+     "explain": "물 = water，水。", "wiki": "05-vocabulary.md", "sources": ["S11"], "evidence": ["| 물 | mul | 水 |"]},
+    {"id": "q13", "chapter": 5, "kind": "vocab", "prompt": "「사과」是同形異義詞，詞典列出哪兩個意思？", "choices": ["蘋果、道歉", "蘋果、牛奶", "道歉、學校", "朋友、道歉"], "answer": 0,
+     "explain": "사과^1 = 蘋果，사과^2 = 道歉。", "wiki": "05-vocabulary.md", "sources": ["S11"], "evidence": ["사과^2 = 道歉"]},
+    {"id": "q14", "chapter": 6, "kind": "dialogue", "prompt": "你要離開，對「留下的人」說再見，用哪一句？", "choices": ["안녕히 가세요", "안녕히 계세요", "감사합니다", "괜찮아요"], "answer": 1,
+     "explain": "안녕히 계세요 是對留下的人說；안녕히 가세요 是對要離開的人說。", "wiki": "06-conversation.md", "sources": ["S9"], "evidence": ["| 안녕히 계세요 | Annyeonghi gyeseyo | 再見（對留下的人說） |"]},
+    {"id": "q15", "chapter": 6, "kind": "match", "prompt": "正確配對：把每句韓文配到中文意思。", "pairs": [
+        {"ko": "감사합니다", "zh": "謝謝"}, {"ko": "죄송합니다", "zh": "對不起"}, {"ko": "괜찮아요", "zh": "沒關係"}],
+     "options": ["謝謝", "對不起", "沒關係"],
+     "explain": "감사합니다 = 謝謝；죄송합니다 = 對不起；괜찮아요 = 沒關係。", "wiki": "06-conversation.md", "sources": ["S9"],
+     "evidence": ["| 감사합니다 / 고맙습니다 | Gamsahamnida / Gomapseumnida | 謝謝 |", "| 죄송합니다 / 미안합니다 | Joesonghamnida / Mianhamnida | 對不起 |", "| 괜찮아요 | Gwaenchanayo | 沒關係 |"]}
+  ],
+  "practice": {
+    "dialogue": [
+      {"id": "p1", "scene": "對方問你 어떻게 지내세요?（你好嗎？）", "prompt": "哪一句可以回答「我很好」？", "choices": ["잘 지내요", "감사합니다", "안녕히 계세요"], "answer": 0,
+       "explain": "잘 지내요 = 我很好。", "wiki": "06-conversation.md", "sources": ["S9"], "evidence": ["| 잘 지내요 | Jal jinaeyo | 我很好 |"]},
+      {"id": "p2", "scene": "你想知道對方的名字", "prompt": "你可以問哪一句？", "choices": ["이름이 뭐예요?", "다시 말씀해 주세요", "죄송합니다"], "answer": 0,
+       "explain": "이름이 뭐예요? = 你的名字是什麼？", "wiki": "06-conversation.md", "sources": ["S9"], "evidence": ["| 이름이 뭐예요? | Ireumi mwoyeyo?【推論】 | 你的名字是什麼？ |"]},
+      {"id": "p3", "scene": "對方說得太快，你想請他說慢一點", "prompt": "你可以說哪一句？", "choices": ["천천히 말씀해 주세요", "안녕히 가세요", "괜찮아요"], "answer": 0,
+       "explain": "천천히 말씀해 주세요 = 請說慢一點（此句只有 S9 一個來源）。", "wiki": "06-conversation.md", "sources": ["S9"], "evidence": ["| 천천히 말씀해 주세요 | Cheoncheonhi malsseumhae juseyo | 請說慢一點 |"]},
+      {"id": "p4", "scene": "朋友要離開了，你留在原地", "prompt": "你對要離開的朋友說哪一句？", "choices": ["안녕히 계세요", "안녕히 가세요", "다시 말씀해 주세요"], "answer": 1,
+       "explain": "안녕히 가세요 是對要離開的人說。", "wiki": "06-conversation.md", "sources": ["S9"], "evidence": ["| 안녕히 가세요 | Annyeonghi gaseyo | 再見（對要離開的人說） |"]}
+    ]
+  }
+}

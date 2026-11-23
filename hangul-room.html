@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HANGUL ROOM — 韓文入門教室</title>
+  <meta name="description" content="Learn Korean, One Letter at a Time. 以 LLM Wiki 為知識來源的韓文入門教學簡報。">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23D9D0F0'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23333'%3E%E3%84%B1%3C/text%3E%3C/svg%3E">
+  <style>
+/* HANGUL ROOM — 韓系極簡風格
+   配色：奶油白 #FAF9F6／柔和灰 #E8E7E4／淡紫 #D9D0F0／深灰文字 #333333／白色卡片 #FFFFFF
+   字體：只使用系統字型，不載入外部資源（GitHub Pages 友善）。 */
+
+:root {
+  --cream: #FAF9F6;
+  --grey: #E8E7E4;
+  --lilac: #D9D0F0;
+  --ink: #333333;
+  --card: #FFFFFF;
+  --ink-soft: #6b6a70;
+  --lilac-deep: #7a6aa8;
+  --lilac-wash: #F1EEF9;
+  --ok: #3f7d5b;
+  --ok-wash: #e8f3ec;
+  --bad: #a64b4b;
+  --bad-wash: #f7eaea;
+  --warn-wash: #f6f1e4;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 1px 2px rgba(51, 51, 51, .05), 0 6px 18px rgba(51, 51, 51, .06);
+  --shadow-lg: 0 2px 4px rgba(51, 51, 51, .06), 0 14px 34px rgba(51, 51, 51, .09);
+  --font: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans CJK KR", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Noto Sans CJK TC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.7;
+  font-size: 16px;
+}
+h1, h2, h3, h4 { line-height: 1.3; margin: 0 0 .5em; font-weight: 600; letter-spacing: .01em; }
+p { margin: 0 0 1em; }
+button { font: inherit; color: inherit; cursor: pointer; }
+a { color: var(--lilac-deep); }
+:focus-visible { outline: 3px solid var(--lilac-deep); outline-offset: 2px; border-radius: 6px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ko { font-family: var(--font); font-feature-settings: "kern"; }
+
+/* ---------- 頂部列 ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 30;
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px clamp(12px, 3vw, 28px);
+  background: rgba(250, 249, 246, .92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--grey);
+}
+.brand { display: flex; align-items: baseline; gap: 8px; border: 0; background: none; padding: 4px 6px; }
+.brand b { font-size: 1.05rem; letter-spacing: .14em; }
+.brand span { font-size: .78rem; color: var(--ink-soft); }
+.nav { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; justify-content: flex-end; }
+.nav button {
+  border: 0; background: transparent; padding: 7px 12px; border-radius: 999px; font-size: .9rem; color: var(--ink-soft);
+  transition: background .2s var(--ease), color .2s var(--ease);
+}
+.nav button:hover { background: var(--grey); color: var(--ink); }
+.nav button[aria-current="page"] { background: var(--lilac); color: var(--ink); font-weight: 600; }
+.pill { font-size: .78rem; color: var(--ink-soft); background: var(--grey); padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+
+main { min-height: calc(100vh - 120px); }
+.view { animation: fade .35s var(--ease); }
+@keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.container { width: min(1080px, 100% - 32px); margin: 0 auto; padding: 28px 0 60px; }
+
+/* ---------- 按鈕 ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  border: 1px solid var(--grey); background: var(--card); padding: 10px 20px; border-radius: 999px; font-size: .95rem;
+  transition: transform .15s var(--ease), box-shadow .2s var(--ease), background .2s var(--ease);
+  min-height: 44px;
+}
+.btn:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+.btn:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn.primary { background: var(--lilac); border-color: var(--lilac); font-weight: 600; }
+.btn.primary:hover { background: #cfc4ec; }
+.btn.small { padding: 6px 14px; min-height: 36px; font-size: .86rem; }
+.btn.ghost { background: transparent; }
+.speak {
+  display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--grey); background: var(--card); font-size: 1.05rem; flex: none;
+  transition: background .2s var(--ease);
+}
+.speak:hover { background: var(--lilac-wash); }
+
+/* ---------- 首頁 ---------- */
+.hero {
+  position: relative; overflow: hidden; text-align: center;
+  padding: clamp(56px, 11vw, 120px) 16px clamp(48px, 8vw, 90px);
+}
+.hero-deco { position: absolute; inset: 0; pointer-events: none; user-select: none; }
+.hero-deco i {
+  position: absolute; font-style: normal; font-weight: 300; color: var(--lilac); opacity: .55;
+  font-size: clamp(64px, 12vw, 150px); line-height: 1;
+}
+.hero-deco i:nth-child(1) { left: 6%; top: 14%; }
+.hero-deco i:nth-child(2) { right: 8%; top: 8%; color: var(--grey); opacity: 1; }
+.hero-deco i:nth-child(3) { left: 14%; bottom: 8%; color: var(--grey); opacity: 1; }
+.hero-deco i:nth-child(4) { right: 12%; bottom: 10%; }
+.hero-inner { position: relative; z-index: 1; }
+.hero h1 { font-size: clamp(2.2rem, 7vw, 4rem); letter-spacing: .2em; margin-bottom: .2em; padding-left: .2em; }
+.hero .tag { font-size: clamp(1rem, 2.4vw, 1.3rem); color: var(--ink-soft); letter-spacing: .04em; margin-bottom: .6em; }
+.hero .sub { font-size: clamp(1.05rem, 2.6vw, 1.35rem); margin-bottom: 1.8em; }
+.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.progress-card { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); margin: 0 0 28px; }
+.stat { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 20px; }
+.stat .num { font-size: 1.9rem; font-weight: 600; line-height: 1.1; }
+.stat .lab { color: var(--ink-soft); font-size: .86rem; }
+.stat .sm { font-size: .8rem; color: var(--ink-soft); margin-top: 6px; }
+.bar { height: 8px; border-radius: 999px; background: var(--grey); overflow: hidden; margin-top: 10px; }
+.bar > span { display: block; height: 100%; background: var(--lilac-deep); border-radius: 999px; transition: width .4s var(--ease); }
+
+.section-title { display: flex; align-items: baseline; gap: 12px; margin: 34px 0 16px; }
+.section-title h2 { margin: 0; font-size: 1.25rem; }
+.section-title small { color: var(--ink-soft); }
+
+.chapter-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); }
+.chapter-card {
+  text-align: left; border: 1px solid transparent; background: var(--card); border-radius: var(--radius); padding: 20px 22px;
+  box-shadow: var(--shadow); transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease);
+  display: grid; gap: 6px;
+}
+.chapter-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--lilac); }
+.chapter-card .code { font-size: .76rem; letter-spacing: .14em; color: var(--lilac-deep); font-weight: 600; }
+.chapter-card .ttl { font-size: 1.15rem; font-weight: 600; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.chapter-card .ttl .ko { color: var(--lilac-deep); font-weight: 400; }
+.chapter-card .bl { color: var(--ink-soft); font-size: .92rem; }
+.chapter-card .meta { font-size: .78rem; color: var(--ink-soft); display: flex; justify-content: space-between; align-items: center; }
+.done-badge { color: var(--ok); font-weight: 600; }
+
+/* ---------- 簡報檢視 ---------- */
+.deck { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 0; min-height: calc(100vh - 62px); }
+.toc {
+  border-right: 1px solid var(--grey); background: #fdfcfa; padding: 18px 14px 40px;
+  overflow-y: auto; max-height: calc(100vh - 62px); position: sticky; top: 62px; align-self: start;
+}
+.toc h3 { font-size: .8rem; letter-spacing: .14em; color: var(--ink-soft); margin: 4px 8px 12px; }
+.toc details { margin-bottom: 6px; }
+.toc summary { cursor: pointer; padding: 8px 10px; border-radius: var(--radius-sm); font-size: .92rem; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 8px; }
+.toc summary::-webkit-details-marker { display: none; }
+.toc summary:hover { background: var(--grey); }
+.toc summary .cnt { font-weight: 400; color: var(--ink-soft); font-size: .78rem; }
+.toc ol { list-style: none; margin: 2px 0 8px; padding: 0; }
+.toc li button {
+  width: 100%; text-align: left; border: 0; background: none; padding: 6px 10px 6px 22px; border-radius: 8px; font-size: .86rem; color: var(--ink-soft);
+  position: relative;
+}
+.toc li button:hover { background: var(--grey); color: var(--ink); }
+.toc li button[aria-current="true"] { background: var(--lilac); color: var(--ink); font-weight: 600; }
+.toc li button.seen::before { content: "✓"; position: absolute; left: 7px; color: var(--ok); font-size: .78rem; }
+.toc-toggle { display: none; }
+
+.stage-wrap { padding: 20px clamp(14px, 3vw, 40px) 40px; min-width: 0; }
+.stage-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
+.stage-head .where { font-size: .84rem; color: var(--ink-soft); }
+.progressbar { flex: 1; min-width: 120px; height: 6px; border-radius: 999px; background: var(--grey); overflow: hidden; }
+.progressbar > span { display: block; height: 100%; background: var(--lilac-deep); transition: width .35s var(--ease); }
+.slide {
+  background: var(--card); border-radius: 22px; box-shadow: var(--shadow-lg);
+  padding: clamp(22px, 4vw, 44px); min-height: 440px; animation: slidein .35s var(--ease);
+  touch-action: pan-y;
+}
+@keyframes slidein { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+.slide .ch { font-size: .76rem; letter-spacing: .16em; color: var(--lilac-deep); font-weight: 600; margin-bottom: 6px; }
+.slide h2 { font-size: clamp(1.4rem, 3.4vw, 2rem); margin-bottom: .7em; }
+.slide .note { margin-top: 18px; padding: 12px 16px; border-radius: var(--radius-sm); background: var(--lilac-wash); color: #4b4560; font-size: .92rem; }
+.slide ul.points { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.slide ul.points li { padding: 14px 18px; background: var(--cream); border-radius: var(--radius-sm); display: flex; justify-content: space-between; gap: 14px; align-items: baseline; font-size: 1.05rem; }
+.chips { display: inline-flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.chip { font-size: .7rem; padding: 2px 8px; border-radius: 999px; background: var(--grey); color: var(--ink-soft); white-space: nowrap; }
+.chip.ok { background: var(--ok-wash); color: var(--ok); }
+.chip.part { background: var(--warn-wash); color: #8a6d1f; }
+.chip.cross { background: transparent; border: 1px dashed var(--grey); }
+
+.slide-foot { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin-top: 22px; padding-top: 14px; border-top: 1px dashed var(--grey); font-size: .78rem; color: var(--ink-soft); }
+.slide-foot code { font-size: .76rem; background: var(--grey); padding: 1px 7px; border-radius: 6px; }
+
+.nav-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+.nav-row .mid { font-size: .84rem; color: var(--ink-soft); }
+.hint { font-size: .8rem; color: var(--ink-soft); margin-top: 8px; text-align: center; }
+
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-sm); border: 1px solid var(--grey); }
+table.tbl { border-collapse: collapse; width: 100%; font-size: .96rem; min-width: 420px; }
+table.tbl th { background: var(--lilac-wash); text-align: left; font-weight: 600; font-size: .84rem; letter-spacing: .04em; }
+table.tbl th, table.tbl td { padding: 11px 16px; border-bottom: 1px solid var(--grey); vertical-align: top; }
+table.tbl tr:last-child td { border-bottom: 0; }
+table.tbl td:first-child { white-space: nowrap; }
+
+.notice { padding: 20px 24px; border-radius: var(--radius); font-size: 1.02rem; }
+.notice.info { background: var(--lilac-wash); }
+.notice.caution { background: var(--warn-wash); }
+
+.obj-list { counter-reset: o; list-style: none; padding: 0; display: grid; gap: 12px; }
+.obj-list li { counter-increment: o; display: flex; gap: 16px; align-items: baseline; font-size: 1.1rem; }
+.obj-list li::before { content: counter(o); flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--lilac); display: grid; place-items: center; font-weight: 600; font-size: .9rem; }
+
+.timeline { display: grid; gap: 16px; position: relative; padding-left: 26px; }
+.timeline::before { content: ""; position: absolute; left: 8px; top: 8px; bottom: 8px; width: 2px; background: var(--lilac); }
+.timeline .ev { position: relative; background: var(--cream); border-radius: var(--radius-sm); padding: 14px 18px; }
+.timeline .ev::before { content: ""; position: absolute; left: -24px; top: 20px; width: 12px; height: 12px; border-radius: 50%; background: var(--lilac-deep); border: 3px solid var(--card); }
+.timeline .when { font-weight: 600; font-size: .95rem; }
+
+.syl-demo { display: flex; gap: clamp(8px, 2vw, 18px); align-items: center; justify-content: center; flex-wrap: wrap; margin: 6px 0 22px; }
+.syl-demo .box { text-align: center; }
+.syl-demo .big { width: clamp(64px, 13vw, 96px); height: clamp(64px, 13vw, 96px); display: grid; place-items: center; font-size: clamp(2rem, 6vw, 3rem); border-radius: 18px; background: var(--lilac-wash); border: 1px solid var(--lilac); }
+.syl-demo .big.res { background: var(--lilac); font-size: clamp(2.4rem, 8vw, 3.6rem); }
+.syl-demo .cap { font-size: .8rem; color: var(--ink-soft); margin-top: 4px; }
+.syl-demo .op { font-size: 1.6rem; color: var(--ink-soft); }
+
+/* ---------- 翻牌 ---------- */
+.deck-viewer { display: grid; gap: 16px; }
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.tabs button { border: 1px solid var(--grey); background: var(--cream); padding: 6px 14px; border-radius: 999px; font-size: .86rem; }
+.tabs button[aria-pressed="true"] { background: var(--lilac); border-color: var(--lilac); font-weight: 600; }
+.flip { perspective: 1200px; width: min(420px, 100%); height: 280px; margin: 0 auto; border: 0; background: none; padding: 0; display: block; }
+.flip-in { position: relative; width: 100%; height: 100%; transition: transform .55s var(--ease); transform-style: preserve-3d; }
+.flip.flipped .flip-in { transform: rotateY(180deg); }
+.face {
+  position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  border-radius: 22px; display: grid; place-items: center; padding: 20px; text-align: center;
+  box-shadow: var(--shadow-lg); border: 1px solid var(--grey); background: var(--card);
+}
+.face.back { transform: rotateY(180deg); background: var(--lilac-wash); border-color: var(--lilac); align-content: center; gap: 8px; }
+.face .glyph { font-size: clamp(4.4rem, 16vw, 6.4rem); line-height: 1.1; }
+.face .glyph.word { font-size: clamp(3.2rem, 12vw, 4.8rem); }
+.face .tapnote { font-size: .76rem; color: var(--ink-soft); }
+.face .rom { font-size: 1.5rem; font-weight: 600; letter-spacing: .04em; }
+.face .zh { font-size: 1.6rem; font-weight: 600; }
+.face .small { font-size: .88rem; color: #4b4560; max-width: 32ch; }
+.face .tiny { font-size: .72rem; color: var(--ink-soft); }
+.deck-ctrl { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.mini-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(46px, 1fr)); gap: 6px; }
+.mini-grid button { border: 1px solid var(--grey); background: var(--cream); border-radius: 10px; padding: 6px 0; font-size: 1.1rem; min-height: 40px; }
+.mini-grid button[aria-current="true"] { background: var(--lilac); border-color: var(--lilac); }
+
+/* ---------- 組合器 ---------- */
+.comb { display: grid; gap: 18px; }
+.comb-out { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; background: var(--lilac-wash); border-radius: var(--radius); padding: 18px 22px; }
+.comb-out .res { font-size: clamp(3.2rem, 10vw, 5rem); line-height: 1; min-width: 1.2em; text-align: center; }
+.comb-out .formula { font-size: .98rem; }
+.comb-out .code { font-size: .8rem; color: var(--ink-soft); margin-top: 4px; font-variant-numeric: tabular-nums; }
+.comb-out .hintbox { font-size: .86rem; margin-top: 8px; color: #4b4560; }
+.pick-row { display: grid; gap: 6px; }
+.pick-row .lab { font-size: .8rem; letter-spacing: .1em; color: var(--ink-soft); }
+.pick-row .grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.pick-row .grid button { min-width: 44px; height: 44px; border: 1px solid var(--grey); background: var(--cream); border-radius: 10px; font-size: 1.15rem; padding: 0 8px; }
+.pick-row .grid button:hover { background: var(--grey); }
+.pick-row .grid button[aria-pressed="true"] { background: var(--lilac); border-color: var(--lilac-deep); font-weight: 600; }
+.pick-row .grid button.none { font-size: .84rem; }
+.comb-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.practice { display: grid; gap: 14px; }
+.practice .target { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.practice .target .t { font-size: 3rem; line-height: 1; }
+.practice .sels { display: flex; gap: 10px; flex-wrap: wrap; }
+.practice select { font: inherit; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--grey); background: var(--card); min-height: 44px; font-size: 1.05rem; }
+.feedback { padding: 12px 16px; border-radius: var(--radius-sm); font-size: .95rem; }
+.feedback.ok { background: var(--ok-wash); }
+.feedback.bad { background: var(--bad-wash); }
+
+/* ---------- 會話 ---------- */
+.dlg { display: grid; gap: 12px; }
+.dlg .line { display: flex; gap: 14px; align-items: center; background: var(--cream); border-radius: var(--radius); padding: 16px 18px; }
+.dlg .txt { flex: 1; min-width: 0; }
+.dlg .k { font-size: 1.5rem; font-weight: 500; }
+.dlg .r { font-size: .92rem; color: var(--ink-soft); }
+.dlg .z { font-size: 1.02rem; margin-top: 2px; }
+.dlg .meta { margin-top: 6px; }
+
+/* ---------- 測驗 ---------- */
+.q { background: var(--card); border: 1px solid var(--grey); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 16px; }
+.slide .q { background: var(--cream); border-color: transparent; }
+.q .qh { display: flex; justify-content: space-between; gap: 10px; font-size: .76rem; color: var(--ink-soft); margin-bottom: 6px; }
+.q .qp { font-size: 1.1rem; font-weight: 500; margin-bottom: 12px; }
+.q .choices { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.q .choices button {
+  border: 1px solid var(--grey); background: var(--card); border-radius: 12px; padding: 11px 14px; text-align: left; font-size: 1.02rem; min-height: 46px;
+  transition: background .15s var(--ease), border-color .15s var(--ease);
+}
+.q .choices button:hover:not(:disabled) { background: var(--lilac-wash); border-color: var(--lilac); }
+.q .choices button.correct { background: var(--ok-wash); border-color: var(--ok); }
+.q .choices button.wrong { background: var(--bad-wash); border-color: var(--bad); }
+.q .choices button:disabled { cursor: default; }
+.q .result { margin-top: 12px; padding: 12px 16px; border-radius: var(--radius-sm); font-size: .94rem; }
+.q .result.ok { background: var(--ok-wash); }
+.q .result.bad { background: var(--bad-wash); }
+.q .result .trace { margin-top: 6px; font-size: .8rem; color: var(--ink-soft); }
+.match-row { display: grid; grid-template-columns: minmax(120px, 1fr) minmax(140px, 1fr); gap: 10px; align-items: center; margin-bottom: 8px; }
+.match-row .ko { font-size: 1.25rem; }
+.match-row select { font: inherit; padding: 9px 10px; border-radius: 10px; border: 1px solid var(--grey); background: var(--card); min-height: 44px; }
+.summary { text-align: center; padding: 28px 16px; }
+.summary .score { font-size: 3rem; font-weight: 600; }
+
+/* ---------- Knowledge & Workflow ---------- */
+.kw-section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(18px, 3vw, 30px); margin-bottom: 22px; }
+.kw-section h2 { font-size: 1.25rem; display: flex; gap: 10px; align-items: baseline; }
+.kw-section h2 small { font-size: .78rem; color: var(--ink-soft); font-weight: 400; }
+.kw-section h3 { font-size: 1rem; margin-top: 20px; }
+.badge { display: inline-block; font-size: .72rem; padding: 2px 9px; border-radius: 999px; background: var(--grey); white-space: nowrap; }
+.badge.success, .badge.done { background: var(--ok-wash); color: var(--ok); }
+.badge.partial { background: var(--warn-wash); color: #8a6d1f; }
+.badge.pending, .badge.failed, .badge.not_started, .badge.reserved { background: var(--bad-wash); color: var(--bad); }
+.badge.reserved, .badge.not_started { background: var(--grey); color: var(--ink-soft); }
+.small-note { font-size: .84rem; color: var(--ink-soft); }
+.flow-svg { width: 100%; height: auto; display: block; }
+.flow-svg text { font-family: var(--font); }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: .8rem; color: var(--ink-soft); margin-top: 8px; }
+.legend i { display: inline-block; width: 18px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+.timeline-log { display: grid; gap: 10px; }
+.log-item { display: grid; grid-template-columns: 64px 1fr; gap: 10px; padding: 10px 14px; background: var(--cream); border-radius: var(--radius-sm); font-size: .9rem; }
+.log-item .id { color: var(--ink-soft); font-size: .78rem; }
+.cols { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.steps { counter-reset: st; list-style: none; padding: 0; display: grid; gap: 10px; }
+.steps li { counter-increment: st; display: flex; gap: 12px; align-items: baseline; }
+.steps li::before { content: counter(st); width: 26px; height: 26px; flex: none; border-radius: 50%; background: var(--lilac); display: grid; place-items: center; font-size: .8rem; font-weight: 600; }
+
+/* ---------- 提示與錯誤 ---------- */
+.toast {
+  position: fixed; left: 50%; bottom: 22px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+  background: #444; color: #fff; padding: 12px 18px; border-radius: 12px; font-size: .9rem; max-width: min(92vw, 480px); z-index: 60;
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.loadfail { max-width: 640px; margin: 60px auto; background: var(--card); padding: 28px; border-radius: var(--radius); box-shadow: var(--shadow); }
+.loadfail pre { background: var(--grey); padding: 12px 14px; border-radius: 10px; overflow-x: auto; font-size: .88rem; }
+footer.site { text-align: center; color: var(--ink-soft); font-size: .78rem; padding: 20px 16px 36px; }
+
+/* ---------- RWD ---------- */
+@media (max-width: 860px) {
+  .deck { grid-template-columns: 1fr; }
+  .toc {
+    position: fixed; inset: 56px 0 0 0; z-index: 40; max-height: none; transform: translateX(-102%); transition: transform .3s var(--ease);
+    background: var(--cream); border-right: 0; box-shadow: var(--shadow-lg); width: min(86vw, 340px);
+  }
+  .toc.open { transform: none; }
+  .toc-toggle { display: inline-flex; }
+  .scrim { position: fixed; inset: 56px 0 0 0; background: rgba(51, 51, 51, .28); z-index: 35; }
+  .brand span { display: none; }
+}
+@media (max-width: 560px) {
+  .topbar { flex-wrap: wrap; row-gap: 4px; }
+  .nav { margin-left: 0; width: 100%; justify-content: space-between; }
+  .nav button { padding: 6px 8px; font-size: .82rem; }
+  .pill { display: none; }
+  .slide { min-height: 380px; border-radius: 18px; }
+  .slide ul.points li { flex-direction: column; gap: 6px; }
+  .dlg .line { flex-wrap: wrap; }
+  .match-row { grid-template-columns: 1fr; }
+  .toc { inset: 96px 0 0 0; }
+  .scrim { inset: 96px 0 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+@media print {
+  .topbar, .toc, .nav-row, .hint, .toast { display: none !important; }
+  .deck { display: block; }
+}
+
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" id="brandBtn" aria-label="回到首頁"><b>HANGUL ROOM</b><span>韓文入門教室</span></button>
+    <nav class="nav" aria-label="主要導覽">
+      <button data-nav="home">首頁</button>
+      <button data-nav="slides">教學簡報</button>
+      <button data-nav="quiz">小測驗</button>
+      <button data-nav="knowledge">Knowledge &amp; Workflow</button>
+    </nav>
+    <span class="pill" id="topPill" aria-live="polite"></span>
+  </header>
+
+  <main id="app" tabindex="-1">
+    <div class="container"><p>載入中…</p></div>
+  </main>
+
+  <footer class="site">
+    HANGUL ROOM · Learn Korean, One Letter at a Time.<br>
+    內容來自專案 LLM Wiki，來源與查證狀態見 Knowledge &amp; Workflow。語音由瀏覽器合成，不保證為標準韓語發音。
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <noscript><div class="container"><p>此簡報需要啟用 JavaScript。</p></div></noscript>
+  <script>
+window.__HANGUL_DATA__ = {"data/slides.json":{"meta":{"project":"HANGUL ROOM","tagline":"Learn Korean, One Letter at a Time.","subtitle":"從零開始，探索韓文字母的世界","generated_from":"wiki/*.md（第二階段建立）","workflow_nodes":"⑤ 查詢 Wiki → ⑥ 整理教學摘要","rule":"每張投影片的 wiki 欄位指向 Wiki 檔案；evidence 內的字串必須能在該檔案中找到（由 scripts/validate.py 檢查）。"},"chapters":[{"id":1,"code":"Chapter 01","title":"認識韓文","ko":"한글","wiki":"01-introduction.md","sources":["S1","S6","S7","S9"],"blurb":"韓文是音素文字；認識音節結構與創制年代。"},{"id":2,"code":"Chapter 02","title":"韓文子音","ko":"자음","wiki":"02-consonants.md","sources":["S1","S2","S9"],"blurb":"19 個初聲子音、五個基本子音的設計與緊音。"},{"id":3,"code":"Chapter 03","title":"韓文母音","ko":"모음","wiki":"03-vowels.md","sources":["S1","S3","S9"],"blurb":"從天、地、人出發，認識 21 個母音。"},{"id":4,"code":"Chapter 04","title":"字母組合與收音","ko":"받침","wiki":"04-syllables.md","sources":["S8","S1","S9"],"blurb":"用組合器拼出音節，認識收音的七種聲音。"},{"id":5,"code":"Chapter 05","title":"日常單字","ko":"단어","wiki":"05-vocabulary.md","sources":["S11"],"blurb":"20 個名詞，逐字查過官方詞典。"},{"id":6,"code":"Chapter 06","title":"基礎會話","ko":"회화","wiki":"06-conversation.md","sources":["S9"],"blurb":"5 組有來源的初學者會話。"}],"decks":{"consonants":[{"ko":"ㄱ","roman":"g/k","group":"basic","note":"模仿舌根靠近軟顎的形狀","src":["S2","S9"]},{"ko":"ㄴ","roman":"n","group":"basic","note":"模仿舌尖靠近齒齦的形狀","src":["S2","S9"]},{"ko":"ㄷ","roman":"d/t","group":"basic","note":"由 ㄴ 加畫而來","src":["S2","S9"]},{"ko":"ㄹ","roman":"r/l","group":"basic","note":"Wiki 只提供羅馬字，沒有額外說明","src":["S9"]},{"ko":"ㅁ","roman":"m","group":"basic","note":"模仿閉合的嘴唇","src":["S2","S9"]},{"ko":"ㅂ","roman":"b/p","group":"basic","note":"由 ㅁ 加畫發展","src":["S2","S9"]},{"ko":"ㅅ","roman":"s","group":"basic","note":"模仿牙齒的形狀","src":["S2","S9"]},{"ko":"ㅇ","roman":"ng／不發音","group":"basic","note":"模仿喉嚨；在初聲位置不發音，只是佔位","src":["S1","S2","S9"]},{"ko":"ㅈ","roman":"j","group":"basic","note":"由 ㅅ 加畫發展","src":["S2","S9"]},{"ko":"ㅊ","roman":"ch","group":"basic","note":"Wiki 只提供羅馬字，沒有額外說明","src":["S9"]},{"ko":"ㅋ","roman":"k","group":"basic","note":"ㄱ 加一畫成為送氣音","src":["S2","S9"]},{"ko":"ㅌ","roman":"t","group":"basic","note":"Wiki 只提供羅馬字，沒有額外說明","src":["S9"]},{"ko":"ㅍ","roman":"p","group":"basic","note":"Wiki 只提供羅馬字，沒有額外說明","src":["S9"]},{"ko":"ㅎ","roman":"h","group":"basic","note":"由 ㅇ 加畫發展","src":["S2","S9"]},{"ko":"ㄲ","roman":"kk","group":"tense","note":"緊音：ㄱ 並寫兩次；以更緊張的方式發音","src":["S2","S9"]},{"ko":"ㄸ","roman":"tt","group":"tense","note":"緊音：平音並寫兩次；以更緊張的方式發音","src":["S2","S9"]},{"ko":"ㅃ","roman":"pp","group":"tense","note":"緊音：平音並寫兩次；以更緊張的方式發音","src":["S2","S9"]},{"ko":"ㅆ","roman":"ss","group":"tense","note":"緊音：平音並寫兩次；以更緊張的方式發音","src":["S2","S9"]},{"ko":"ㅉ","roman":"jj","group":"tense","note":"緊音：平音並寫兩次；以更緊張的方式發音","src":["S2","S9"]}],"vowels":[{"ko":"ㅏ","roman":"a","group":"basic","note":"ㆍ 放在 ㅣ 的右邊","src":["S3","S9"]},{"ko":"ㅑ","roman":"ya","group":"basic","note":"ㆍ 寫兩次，帶 ㅣ 滑音的雙母音","src":["S3","S9"]},{"ko":"ㅓ","roman":"eo","group":"basic","note":"ㆍ 放在 ㅣ 的左邊","src":["S3","S9"]},{"ko":"ㅕ","roman":"yeo","group":"basic","note":"ㆍ 寫兩次，帶 ㅣ 滑音的雙母音","src":["S3","S9"]},{"ko":"ㅗ","roman":"o","group":"basic","note":"ㆍ 放在 ㅡ 的上方","src":["S3","S9"]},{"ko":"ㅛ","roman":"yo","group":"basic","note":"ㆍ 寫兩次，帶 ㅣ 滑音的雙母音","src":["S3","S9"]},{"ko":"ㅜ","roman":"u","group":"basic","note":"ㆍ 放在 ㅡ 的下方","src":["S3","S9"]},{"ko":"ㅠ","roman":"yu","group":"basic","note":"ㆍ 寫兩次，帶 ㅣ 滑音的雙母音","src":["S3","S9"]},{"ko":"ㅡ","roman":"eu","group":"basic","note":"基本元素：地（平的）","src":["S3","S9"]},{"ko":"ㅣ","roman":"i","group":"basic","note":"基本元素：人（站立的）","src":["S3","S9"]},{"ko":"ㅐ","roman":"ae","group":"compound","note":"原為雙母音，由 ㅏ＋ㅣ 構成","src":["S3","S9"]},{"ko":"ㅒ","roman":"yae","group":"compound","note":"S9 列為複合母音；個別構成 Wiki 尚未說明","src":["S9"]},{"ko":"ㅔ","roman":"e","group":"compound","note":"原為雙母音，由 ㅓ＋ㅣ 構成","src":["S3","S9"]},{"ko":"ㅖ","roman":"ye","group":"compound","note":"S9 列為複合母音；個別構成 Wiki 尚未說明","src":["S9"]},{"ko":"ㅘ","roman":"wa","group":"compound","note":"複合母音，由簡單母音組合","src":["S3","S9"]},{"ko":"ㅙ","roman":"wae","group":"compound","note":"S9 列為複合母音；個別構成 Wiki 尚未說明","src":["S9"]},{"ko":"ㅚ","roman":"oe","group":"compound","note":"S9 列為複合母音；個別構成 Wiki 尚未說明","src":["S9"]},{"ko":"ㅝ","roman":"wo","group":"compound","note":"複合母音，由簡單母音組合","src":["S3","S9"]},{"ko":"ㅞ","roman":"we","group":"compound","note":"S9 列為複合母音；個別構成 Wiki 尚未說明","src":["S9"]},{"ko":"ㅟ","roman":"wi","group":"compound","note":"S9 列為複合母音；個別構成 Wiki 尚未說明","src":["S9"]},{"ko":"ㅢ","roman":"ui","group":"compound","note":"被描述為 ㅡ 與 ㅣ 的組合","src":["S9"]}],"vocab":[{"ko":"물","roman":"mul","zh":"水","en":"water","cat":"飲食","note":"江、湖、海等的透明液體","src":["S11"]},{"ko":"밥","roman":"bap","zh":"米飯；一餐","en":"steamed rice; rice / meal","cat":"飲食","note":"詞典列有五個義項，本教材只收前兩項","src":["S11"]},{"ko":"사과","roman":"sagwa","zh":"蘋果","en":"apple","cat":"飲食","note":"同形異義：사과^2 = 道歉（apology）","src":["S11"]},{"ko":"우유","roman":"uyu","zh":"牛奶","en":"milk","cat":"飲食","note":"","src":["S11"]},{"ko":"커피","roman":"keopi","zh":"咖啡","en":"coffee","cat":"飲食","note":"","src":["S11"]},{"ko":"김치","roman":"gimchi","zh":"泡菜","en":"kimchi","cat":"飲食","note":"以鹽醃蔬菜、調味後發酵製成","src":["S11"]},{"ko":"친구","roman":"chingu","zh":"朋友","en":"friend","cat":"人物","note":"漢字 親舊","src":["S11"]},{"ko":"가족","roman":"gajok","zh":"家人；家庭","en":"family","cat":"人物","note":"漢字 家族","src":["S11"]},{"ko":"사람","roman":"saram","zh":"人","en":"human; man","cat":"人物","note":"詞典列有九個義項，本教材只收第一義","src":["S11"]},{"ko":"이름","roman":"ireum","zh":"名字","en":"name","cat":"人物","note":"對應第 6 章 이름이 뭐예요?","src":["S9","S11"]},{"ko":"어머니","roman":"eomeoni","zh":"母親","en":"mother","cat":"人物","note":"第一義：生下你的女性，或對她的稱呼","src":["S11"]},{"ko":"학교","roman":"hakgyo","zh":"學校","en":"school","cat":"地點","note":"","src":["S11"]},{"ko":"집","roman":"jip","zh":"房子；住所","en":"house","cat":"地點","note":"","src":["S11"]},{"ko":"한국","roman":"hanguk","zh":"韓國","en":"Korea","cat":"地點","note":"詞典亦稱大韓民國或南韓，首都首爾","src":["S11"]},{"ko":"나라","roman":"nara","zh":"國家","en":"country; nation; state","cat":"地點","note":"第二義為『夢想的世界』","src":["S11"]},{"ko":"책","roman":"chaek","zh":"書","en":"books; publications","cat":"物品與時間","note":"漢字 冊","src":["S11"]},{"ko":"가방","roman":"gabang","zh":"包包；袋子","en":"bag","cat":"物品與時間","note":"","src":["S11"]},{"ko":"버스","roman":"beoseu","zh":"公車；巴士","en":"bus","cat":"物品與時間","note":"","src":["S11"]},{"ko":"시간","roman":"sigan","zh":"時間","en":"time; hours","cat":"物品與時間","note":"漢字 時間，有多個義項","src":["S11"]},{"ko":"오늘","roman":"oneul","zh":"今天","en":"today","cat":"物品與時間","note":"第二義為『現在、當今』","src":["S11"]}]},"practice_targets":[{"target":"한","hint":"第 1 章的拆解示例（S9）","src":["S9"]},{"target":"물","hint":"水（第 5 章單字）","src":["S11"]},{"target":"밥","hint":"米飯（第 5 章單字）","src":["S11"]},{"target":"집","hint":"房子（第 5 章單字）","src":["S11"]},{"target":"책","hint":"書（第 5 章單字）","src":["S11"]}],"slides":[{"id":"c1-obj","chapter":1,"type":"objectives","title":"學習目標","wiki":"01-introduction.md","sources":["S1","S7"],"items":["說明韓文（한글）是什麼類型的文字","說明一個韓文音節由哪三個位置組成","知道韓文由世宗大王創制，以及年代記載的差異"],"evidence":["說明韓文（한글，Hangeul）是什麼類型的文字","說明一個韓文音節由哪三個位置組成","知道韓文由世宗大王創制"]},{"id":"c1-features","chapter":1,"type":"bullets","title":"韓文的特色","wiki":"01-introduction.md","sources":["S1","S6","S7"],"items":[{"t":"韓文是音素文字：子音與母音各有獨立字母","s":["S1"]},{"t":"書寫時把字母合成一個「音節方塊」","s":["S1"]},{"t":"創制歸功於世宗大王（세종대왕）","s":["S7","S6"]}],"evidence":["音素文字","音節方塊","（세종대왕）"]},{"id":"c1-numbers","chapter":1,"type":"table","title":"字母的數量","wiki":"01-introduction.md","sources":["S1"],"headers":["項目","數量","來源"],"rows":[["初聲子音字母","19 個","S1"],["母音字母","21 個","S1"],["終聲","16 個單子音、11 個雙子音","S1"],["基本字母","24 個","S1"],["複合字母","16 個","S1"]],"note":"初聲位置的 ㅇ 不發音，只是佔位。","evidence":["19 個","21 個","16 個單子音、11 個雙子音","24 個","16 個","不發音"]},{"id":"c1-syllable","chapter":1,"type":"syllable","title":"音節的三個位置","wiki":"01-introduction.md","sources":["S1","S9"],"parts":{"l":"ㅎ","v":"ㅏ","t":"ㄴ","result":"한"},"items":[{"t":"初聲：開頭的子音","s":["S1"]},{"t":"中聲：母音","s":["S1"]},{"t":"終聲：結尾的子音，可有可無，稱為 받침","s":["S1"]}],"note":"例子：한 = ㅎ（初聲）＋ ㅏ（中聲）＋ ㄴ（終聲）[S9]","evidence":["한 = ㅎ","（結尾子音，可有可無，稱為 받침）","初聲**（開頭子音）"]},{"id":"c1-history","chapter":1,"type":"timeline","title":"起源的年代記載","wiki":"01-introduction.md","sources":["S7","S9"],"events":[{"when":"1443 年 12 月","text":"官方史書記載國王「創制諺文 28 字」，沒有寫出確切日期。","s":["S7"]},{"when":"1446 年 9 月","text":"史書記載《訓民正音》完成。S7 指這是《解例本》手稿完成，不是頒布。","s":["S7"]},{"when":"10 月 9 日","text":"韓文日（한글날）。原定 10 月 29 日，後改為 10 月 9 日。","s":["S7","S9"]}],"note":"早期名稱：諺文（언문）、訓民正音（훈민정음）[S7]","evidence":["1443 年 12 月","創制諺文 28 字","1446 年 9 月","不是頒布","10 月 9 日","諺文（언문）"]},{"id":"c1-purposes","chapter":1,"type":"bullets","title":"世宗大王的三項目的","wiki":"01-introduction.md","sources":["S6"],"items":[{"t":"創造符合韓語語法與音韻的民族文字","s":["S6"]},{"t":"讓所有人民都能使用","s":["S6"]},{"t":"便於學習外語（包括中文），促進與鄰國交流","s":["S6"]},{"t":"自 1990 年起，聯合國教科文組織每年頒發「世宗大王識字獎」","s":["S6"]}],"note":"三項目的引自《訓民正音》序文，由 1996 年的前言轉述；只取歷史事實。","evidence":["創造符合韓語語法與音韻的民族文字","讓所有人民都能使用","便於學習外語","世宗大王識字獎"]},{"id":"c1-conflict","chapter":1,"type":"notice","title":"資料衝突：1446 年是「完成」還是「頒布」？","wiki":"01-introduction.md","sources":["S7","S9"],"tone":"caution","text":"S9 寫「1446 年正式頒布」，但官方的 S7 明確指出 1446 年 9 月的記載是《解例本》完稿，不是頒布。本簡報採用 S7，只說「1446 年完成」。","evidence":["S9 寫「1446 年正式頒布」","採用 S7"]},{"id":"c1-quiz","chapter":1,"type":"quiz","title":"第 1 章小測","wiki":"01-introduction.md","sources":["S1","S7"],"quiz_chapter":1,"evidence":[]},{"id":"c2-obj","chapter":2,"type":"objectives","title":"學習目標","wiki":"02-consonants.md","sources":["S1","S2"],"items":["認得 19 個初聲子音，並讀出對應羅馬字","理解五個基本子音如何模仿發音器官","區分平音、送氣音（加一畫）與緊音（並寫兩次）"],"evidence":["認得 19 個初聲子音，並讀出對應羅馬字","理解五個基本子音如何模仿發音器官","區分平音、送氣音（加一畫）與緊音（並寫兩次）"]},{"id":"c2-design","chapter":2,"type":"table","title":"五個基本子音：模仿發音器官","wiki":"02-consonants.md","sources":["S2"],"headers":["字母","模仿的對象"],"rows":[["ㄱ","舌根靠近軟顎"],["ㄴ","舌尖靠近齒齦"],["ㅁ","閉合的嘴唇"],["ㅅ","牙齒"],["ㅇ","喉嚨"]],"note":"發音部位相同的字形相近，較強的音多加一畫。","evidence":["ㄱ：舌根靠近軟顎；ㄴ：舌尖靠近齒齦；ㅁ：閉合的嘴唇；ㅅ：牙齒；ㅇ：喉嚨","較強的音多一畫"]},{"id":"c2-strokes","chapter":2,"type":"bullets","title":"加畫的規律","wiki":"02-consonants.md","sources":["S2"],"items":[{"t":"ㄷ 來自 ㄴ","s":["S2"]},{"t":"ㅂ、ㅈ、ㅎ 分別由 ㅁ、ㅅ、ㅇ 發展","s":["S2"]},{"t":"平音加一畫成為送氣音：ㄱ → ㅋ","s":["S2"]},{"t":"平音並寫兩次成為緊音：ㄱ → ㄲ","s":["S2"]}],"note":"本教材只展示 S2 明確寫出的例子；完整的平音／送氣音／緊音配對表在 Wiki 中屬於推論，尚待核對 S2 原頁，因此不展示。","evidence":["ㄷ 來自 ㄴ","ㅂ、ㅈ、ㅎ 分別由 ㅁ、ㅅ、ㅇ 發展","ㄱ→ㅋ","並寫兩次"]},{"id":"c2-cards","chapter":2,"type":"cards","deck":"consonants","title":"子音卡片（19 個）","wiki":"02-consonants.md","sources":["S1","S2","S9"],"evidence":["ㄱ g/k","ㄴ n","ㄷ d/t","ㄹ r/l","ㅁ m","ㅂ b/p","ㅅ s","ㅇ ng／不發音","ㅈ j","ㅊ ch","ㅋ k","ㅌ t","ㅍ p","ㅎ h","ㄲ kk","ㄸ tt","ㅃ pp","ㅆ ss","ㅉ jj"]},{"id":"c2-tense","chapter":2,"type":"bullets","title":"緊音：不只是「兩個字母」","wiki":"02-consonants.md","sources":["S2","S9"],"items":[{"t":"緊音有 5 個：ㄲ ㄸ ㅃ ㅆ ㅉ","s":["S9"]},{"t":"寫法是把平音並寫兩次","s":["S2"]},{"t":"它們以更緊張的方式發音，不是把平音重複兩次","s":["S9"]}],"evidence":["緊音不只是「兩個字母」","並寫兩次"]},{"id":"c2-roman","chapter":2,"type":"notice","title":"羅馬字只是輔助","wiki":"02-consonants.md","sources":["S9"],"tone":"info","text":"羅馬字寫法不唯一（例如 김밥 可寫 Kimbap 或 Gimbap），但韓語的發音不變。羅馬字不是英文發音。本簡報不使用中文諧音。子音的詳細發音描述在 Wiki 中屬於待補來源，因此不在教材中講解。","evidence":["羅馬字寫法不唯一（如 김밥 可寫 Kimbap 或 Gimbap）","【待補來源】"]},{"id":"c2-quiz","chapter":2,"type":"quiz","title":"第 2 章小測","wiki":"02-consonants.md","sources":["S2"],"quiz_chapter":2,"evidence":[]},{"id":"c3-obj","chapter":3,"type":"objectives","title":"學習目標","wiki":"03-vowels.md","sources":["S1","S3"],"items":["認得 21 個母音字母並讀出對應羅馬字","理解「天、地、人」三個基本元素如何組成母音","知道複合母音由簡單母音組合而成"],"evidence":["認得 21 個母音字母並讀出對應羅馬字","理解「天、地、人」三個基本元素如何組成母音","知道複合母音由簡單母音組合而成"]},{"id":"c3-trinity","chapter":3,"type":"table","title":"三個基本元素：天、地、人","wiki":"03-vowels.md","sources":["S3"],"headers":["符號","代表"],"rows":[["ㆍ","天（圓的）"],["ㅡ","地（平的）"],["ㅣ","人（站立的）"]],"note":"ㆍ 的發音已消失，今日不再使用。","evidence":["（天，圓的）","（地，平的）","（人，站立的）","ㆍ 的發音已消失，今日不再使用"]},{"id":"c3-combine","chapter":3,"type":"table","title":"母音的組合方式","wiki":"03-vowels.md","sources":["S3"],"headers":["母音","構成方式"],"rows":[["ㅗ、ㅜ","ㆍ 放在 ㅡ 的上方或下方"],["ㅏ、ㅓ","ㆍ 放在 ㅣ 的右邊或左邊"],["ㅛ、ㅠ、ㅑ、ㅕ","結構同上，但 ㆍ 寫兩次；為帶 ㅣ 滑音的雙母音"],["ㅘ、ㅝ 等複合母音","由簡單母音組合"],["ㅐ、ㅔ","原為雙母音，由 ㅏ＋ㅣ、ㅓ＋ㅣ 構成"]],"evidence":["ㆍ 放在 ㅡ 的上方或下方","ㆍ 放在 ㅣ 的右邊或左邊","ㆍ 寫兩次","由簡單母音組合","ㅏ＋ㅣ、ㅓ＋ㅣ"]},{"id":"c3-cards","chapter":3,"type":"cards","deck":"vowels","title":"母音卡片（21 個）","wiki":"03-vowels.md","sources":["S1","S3","S9"],"evidence":["ㅏ a","ㅑ ya","ㅓ eo","ㅕ yeo","ㅗ o","ㅛ yo","ㅜ u","ㅠ yu","ㅡ eu","ㅣ i","ㅐ ae","ㅒ yae","ㅔ e","ㅖ ye","ㅘ wa","ㅙ wae","ㅚ oe","ㅝ wo","ㅞ we","ㅟ wi","ㅢ ui"]},{"id":"c3-notes","chapter":3,"type":"bullets","title":"複合母音的注意事項","wiki":"03-vowels.md","sources":["S3","S9"],"items":[{"t":"ㅐ 與 ㅔ 原為雙母音","s":["S3"]},{"t":"ㅢ 被描述為 ㅡ 與 ㅣ 的組合","s":["S9"]},{"t":"許多複合母音的發音在歷史上簡化，字形與發音的對應現在不一定清楚","s":["S3"]}],"note":"各母音的實際發音位置、ㅐ 與 ㅔ、ㅓ 與 ㅗ 的聽感差異，Wiki 標為待補來源，因此不在教材中講解。","evidence":["ㅢ 被描述為 ㅡ 與 ㅣ 的組合","許多複合母音的發音在歷史上簡化","【待補來源】"]},{"id":"c3-quiz","chapter":3,"type":"quiz","title":"第 3 章小測","wiki":"03-vowels.md","sources":["S3"],"quiz_chapter":3,"evidence":[]},{"id":"c4-obj","chapter":4,"type":"objectives","title":"學習目標","wiki":"04-syllables.md","sources":["S1","S8"],"items":["能把初聲、中聲、終聲組成音節","知道收音（받침）只會發出七種音","認識雙收音「只發一個音」的原則與例外","知道收音遇到母音開頭的助詞時會連到下一個音節"],"evidence":["能把初聲、中聲、終聲組成音節","知道收音（받침）只會發出七種音","認識雙收音「只發一個音」的原則與例外","連音"]},{"id":"c4-structure","chapter":4,"type":"bullets","title":"音節與 받침","wiki":"04-syllables.md","sources":["S1","S9","S8"],"items":[{"t":"音節 = 初聲 ＋ 中聲 ＋（終聲）","s":["S1"]},{"t":"終聲有 16 個單子音與 11 個雙子音","s":["S1"]},{"t":"받침指音節方塊底部的終聲，例：한 = ㅎ＋ㅏ＋ㄴ","s":["S9"]},{"t":"音節末只會發出七種音：ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅇ","s":["S8"]}],"evidence":["音節 = 初聲 ＋ 中聲 ＋（終聲）","16 個單子音與 11 個雙子音","한 = ㅎ＋ㅏ＋ㄴ","音節末只會發出七種音"]},{"id":"c4-combiner","chapter":4,"type":"combiner","title":"字母組合器","wiki":"04-syllables.md","sources":["S1","S8"],"note":"選擇初聲、中聲與可選的終聲，系統以 Unicode 韓文音節公式產生字元。收音的讀法提示只顯示 Wiki 已有來源的項目。","evidence":["音節 = 初聲 ＋ 中聲 ＋（終聲）"]},{"id":"c4-seven","chapter":4,"type":"table","title":"單收音的代表音","wiki":"04-syllables.md","sources":["S8"],"headers":["發成","對應的收音字母","例字"],"rows":[["[ㄱ]","ㄱ、ㄲ、ㅋ","밖、닦다、부엌、남녘"],["[ㄷ]","ㅅ、ㅆ、ㅈ、ㅊ、ㅌ","밭도→[받또]、있다→[읻따]"],["[ㅂ]","ㅂ、ㅍ","앞、무릎"]],"note":"ㅎ 作收音的讀法，Wiki 標為待補來源，本教材不講解。ㄴ ㄹ ㅁ ㅇ 屬七種音，但「照字母發音」在 Wiki 為推論，不另展示。","evidence":["밖、닦다、부엌、남녘","ㅅ、ㅆ、ㅈ、ㅊ、ㅌ","밭도→[받또]、있다→[읻따]","앞、무릎","【待補來源】"]},{"id":"c4-double","chapter":4,"type":"table","title":"雙收音：只發一個音","wiki":"04-syllables.md","sources":["S8"],"headers":["情況","雙收音","例字"],"rows":[["發前一個","ㄳ ㄵ ㄼ ㄽ ㄾ ㅄ","넋→[넉]、앉다→[안따]、여덟→[여덜]、핥다→[할따]、값→[갑]"],["發後一個","ㄺ ㄻ ㄿ","닭→[닥]、삶→[삼]、읊다→[읍따]"],["例外","動詞、形容詞語幹的 ㄺ 在 ㄱ 前讀 [ㄹ]","맑게→[말께]"],["例外","밟다 的 ㄼ 讀 [ㅂ]","밟다→[밥따]"]],"note":"韓語不能連續發出三個子音，所以雙收音在詞尾或後面接子音時，只發其中一個。","evidence":["ㄳ ㄵ ㄼ ㄽ ㄾ ㅄ","넋→[넉]、앉다→[안따]、여덟→[여덜]、핥다→[할따]、값→[갑]","ㄺ ㄻ ㄿ","닭→[닥]、삶→[삼]、읊다→[읍따]","맑게→[말께]","밟다→[밥따]"]},{"id":"c4-link","chapter":4,"type":"bullets","title":"連音：收音遇到母音開頭的助詞","wiki":"04-syllables.md","sources":["S8"],"items":[{"t":"後面接子音時，收音會被「遮住」","s":["S8"]},{"t":"接上以母音開頭的助詞，原本的收音會變成下一個音節的開頭","s":["S8"]},{"t":"빗이→[비시]、빚이→[비지]、빛이→[비치]","s":["S8"]},{"t":"빗을→[비슬]、빚을→[비즐]、빛을→[비츨]","s":["S8"]}],"evidence":["빗이→[비시]、빚이→[비지]、빛이→[비치]","빗을→[비슬]、빚을→[비즐]、빛을→[비츨]"]},{"id":"c4-practice","chapter":4,"type":"practice","title":"拼音組合練習","wiki":"04-syllables.md","sources":["S9","S11"],"note":"看提示，用三個下拉選單拼出目標音節。題目只使用 Wiki 第 1、5 章出現過的字。","evidence":["한 = ㅎ","05-vocabulary.md::물 = ㅁ＋ㅜ＋ㄹ","05-vocabulary.md::밥 = ㅂ＋ㅏ＋ㅂ"]},{"id":"c4-limits","chapter":4,"type":"notice","title":"本教材沒有講解的內容","wiki":"04-syllables.md","sources":["S8"],"tone":"caution","text":"方塊中母音的排版規則，以及其他音變（鼻音化、緊音化等），Wiki 標為待補來源，因此本簡報不講解。","evidence":["排版規則","其他音變"]},{"id":"c4-quiz","chapter":4,"type":"quiz","title":"第 4 章小測","wiki":"04-syllables.md","sources":["S8","S9"],"quiz_chapter":4,"evidence":[]},{"id":"c5-obj","chapter":5,"type":"objectives","title":"學習目標","wiki":"05-vocabulary.md","sources":["S11"],"items":["用已學的字母拆讀並辨識 20 個日常單字","知道每個單字的詞性（皆為名詞）與基本意思","養成查詞典確認詞義的習慣，並注意同形異義詞"],"evidence":["用已學的字母拆讀並辨識 20 個日常單字","知道每個單字的詞性（皆為名詞）與基本意思","養成查詞典確認詞義的習慣，並注意同形異義詞"]},{"id":"c5-cards","chapter":5,"type":"vocab","deck":"vocab","title":"單字翻牌（20 個）","wiki":"05-vocabulary.md","sources":["S11"],"evidence":["| 물 | mul | 水 |","| 밥 | bap | 米飯；一餐 |","| 사과 | sagwa | 蘋果 |","| 우유 | uyu | 牛奶 |","| 커피 | keopi | 咖啡 |","| 김치 | gimchi | 泡菜 |","| 친구 | chingu | 朋友 |","| 가족 | gajok | 家人；家庭 |","| 사람 | saram | 人 |","| 이름 | ireum | 名字 |","| 어머니 | eomeoni | 母親 |","| 학교 | hakgyo | 學校 |","| 집 | jip | 房子；住所 |","| 한국 | hanguk | 韓國 |","| 나라 | nara | 國家 |","| 책 | chaek | 書 |","| 가방 | gabang | 包包；袋子 |","| 버스 | beoseu | 公車；巴士 |","| 시간 | sigan | 時間 |","| 오늘 | oneul | 今天 |"]},{"id":"c5-notes","chapter":5,"type":"bullets","title":"查單字時的注意事項","wiki":"05-vocabulary.md","sources":["S11"],"items":[{"t":"20 個單字皆為名詞（명사）","s":["S11"]},{"t":"詞典對同一個詞可能列出多個義項（밥、사람、시간 等）","s":["S11"]},{"t":"同形異義詞：사과 = 蘋果（사과^1）／道歉（사과^2）","s":["S11"]},{"t":"羅馬字是依字母表推導，詞典頁面沒有提供音標或羅馬字","s":["S9","S11"]}],"note":"詞典頁面沒有顯示例句，所以本教材不提供自行編寫的例句；單字音變與敬語用法為待補來源。","evidence":["詞典對同一個詞可能列出多個義項","同形異義：사과^2 = 道歉","詞典沒有提供羅馬字","不提供自行編寫的例句"]},{"id":"c5-quiz","chapter":5,"type":"quiz","title":"第 5 章小測：單字辨識","wiki":"05-vocabulary.md","sources":["S11"],"quiz_chapter":5,"evidence":[]},{"id":"c6-obj","chapter":6,"type":"objectives","title":"學習目標","wiki":"06-conversation.md","sources":["S9"],"items":["學會 5 組初學者最常用的會話","能讀出句子，並知道意思與使用情境","了解同一個意思可以有不同說法"],"evidence":["學會 5 組初學者最常用的會話","能讀出句子，並知道意思與使用情境","了解同一個意思可以有不同說法"]},{"id":"c6-g1","chapter":6,"type":"dialogue","title":"會話 1：問候","wiki":"06-conversation.md","sources":["S9"],"crosscheck":["S10"],"lines":[{"ko":"안녕하세요","roman":"Annyeonghaseyo","zh":"你好","s":["S9"],"cross":["S10"]},{"ko":"어떻게 지내세요?","roman":"Eotteoke jinaeseyo?","zh":"你好嗎？","s":["S9"]},{"ko":"잘 지내요","roman":"Jal jinaeyo","zh":"我很好","s":["S9"]}],"evidence":["| 안녕하세요 | Annyeonghaseyo | 你好 |","| 어떻게 지내세요? | Eotteoke jinaeseyo? | 你好嗎？ |","| 잘 지내요 | Jal jinaeyo | 我很好 |"]},{"id":"c6-g2","chapter":6,"type":"dialogue","title":"會話 2：初次見面與自我介紹","wiki":"06-conversation.md","sources":["S9"],"lines":[{"ko":"만나서 반가워요","roman":"Mannaseo bangawoyo","zh":"很高興認識你","s":["S9"]},{"ko":"이름이 뭐예요?","roman":"","zh":"你的名字是什麼？","s":["S9"]},{"ko":"제 이름은 ___예요","roman":"","zh":"我的名字是 ___","s":["S9"]}],"note":"後兩句 S9 只提供韓文與英文意思，沒有羅馬字，Wiki 中的羅馬字屬於推論，因此不顯示。","evidence":["| 만나서 반가워요 | Mannaseo bangawoyo | 很高興認識你 |","| 이름이 뭐예요? | Ireumi mwoyeyo?【推論】 | 你的名字是什麼？ |","| 제 이름은 ___예요 | Je ireumeun ___yeyo【推論】 | 我的名字是 ___ |"]},{"id":"c6-g3","chapter":6,"type":"dialogue","title":"會話 3：感謝與道歉","wiki":"06-conversation.md","sources":["S9"],"crosscheck":["S10"],"lines":[{"ko":"감사합니다 / 고맙습니다","roman":"Gamsahamnida / Gomapseumnida","zh":"謝謝","s":["S9"],"cross":["S10"]},{"ko":"죄송합니다 / 미안합니다","roman":"Joesonghamnida / Mianhamnida","zh":"對不起","s":["S9"],"cross":["S10"]},{"ko":"괜찮아요","roman":"Gwaenchanayo","zh":"沒關係","s":["S9"],"cross":["S10"]}],"note":"兩種說法的敬語程度差異，Wiki 標為待補來源，本教材不講解。","evidence":["| 감사합니다 / 고맙습니다 | Gamsahamnida / Gomapseumnida | 謝謝 |","| 죄송합니다 / 미안합니다 | Joesonghamnida / Mianhamnida | 對不起 |","| 괜찮아요 | Gwaenchanayo | 沒關係 |"]},{"id":"c6-g4","chapter":6,"type":"dialogue","title":"會話 4：道別","wiki":"06-conversation.md","sources":["S9"],"crosscheck":["S10"],"lines":[{"ko":"안녕히 가세요","roman":"Annyeonghi gaseyo","zh":"再見（對要離開的人說）","s":["S9"],"cross":["S10"]},{"ko":"안녕히 계세요","roman":"Annyeonghi gyeseyo","zh":"再見（對留下的人說）","s":["S9"],"cross":["S10"]}],"note":"兩句的差別在於誰離開、誰留下。","evidence":["| 안녕히 가세요 | Annyeonghi gaseyo | 再見（對要離開的人說） |","| 안녕히 계세요 | Annyeonghi gyeseyo | 再見（對留下的人說） |"]},{"id":"c6-g5","chapter":6,"type":"dialogue","title":"會話 5：請對方再說一次、說慢一點","wiki":"06-conversation.md","sources":["S9"],"single_source":true,"lines":[{"ko":"다시 말씀해 주세요","roman":"Dasi malsseumhae juseyo","zh":"請再說一次","s":["S9"]},{"ko":"천천히 말씀해 주세요","roman":"Cheoncheonhi malsseumhae juseyo","zh":"請說慢一點","s":["S9"]}],"note":"這一組只有 S9 一個來源（S10 沒有收錄）。","evidence":["| 다시 말씀해 주세요 | Dasi malsseumhae juseyo | 請再說一次 |","| 천천히 말씀해 주세요 | Cheoncheonhi malsseumhae juseyo | 請說慢一點 |","只有單一來源（S9）"]},{"id":"c6-practice","chapter":6,"type":"scenario","title":"對話練習：情境選擇","wiki":"06-conversation.md","sources":["S9"],"note":"只使用前面 5 組會話中出現過的句子。","evidence":["【教學設計】以下情境只使用上列已有來源的句子，不自行擴寫新句型"]},{"id":"c6-limits","chapter":6,"type":"notice","title":"本教材沒有納入的內容","wiki":"06-conversation.md","sources":["S9","S10"],"tone":"caution","text":"S10 的韓文是工具重建、尚未人工核對，因此只有 S10 單獨出現的句子不納入教學（排除清單見 Knowledge & Workflow 頁）。敬語等級（합쇼체、해요체等）的分類在 Wiki 標為待補來源，本簡報不講解。","evidence":["S10 的韓文為工具重建","敬語等級（합쇼체、해요체等）的分類與使用規則：【待補來源】"]},{"id":"c6-quiz","chapter":6,"type":"quiz","title":"第 6 章小測","wiki":"06-conversation.md","sources":["S9"],"quiz_chapter":6,"evidence":[]}]},"data/quiz.json":{"meta":{"rule":"題目與答案只來自 Wiki。evidence 為 Wiki 檔案中必須存在的字串，由 scripts/validate.py 檢查。","workflow_nodes":"⑤ 查詢 Wiki → ⑥ 整理教學摘要"},"questions":[{"id":"q01","chapter":1,"kind":"concept","prompt":"韓文的初聲位置共有幾個子音字母？","choices":["14 個","19 個","21 個","24 個"],"answer":1,"explain":"初聲子音字母共 19 個；21 是母音字母的數量。","wiki":"01-introduction.md","sources":["S1"],"evidence":["| 初聲子音字母 | 19 個 | [S1] |"]},{"id":"q02","chapter":1,"kind":"concept","prompt":"一個韓文音節的三個位置中，哪一個「可有可無」？","choices":["初聲","中聲","終聲（받침）","三個都不可省略"],"answer":2,"explain":"音節 = 初聲 ＋ 中聲 ＋（終聲）。終聲可有可無，稱為 받침。","wiki":"01-introduction.md","sources":["S1"],"evidence":["（結尾子音，可有可無，稱為 받침）"]},{"id":"q03","chapter":1,"kind":"concept","prompt":"ㅇ 在「初聲」位置時，怎麼讀？","choices":["讀 ng","不發音，只是佔位","讀 h","讀 r"],"answer":1,"explain":"初聲位置的 ㅇ 不發音，只是佔位。","wiki":"01-introduction.md","sources":["S1"],"evidence":["不發音"]},{"id":"q04","chapter":1,"kind":"concept","prompt":"根據 S7，韓文日（한글날）定在哪一天？","choices":["10 月 29 日","10 月 9 日","9 月上旬","12 月"],"answer":1,"explain":"韓文日原定 10 月 29 日，後改為 10 月 9 日。","wiki":"01-introduction.md","sources":["S7","S9"],"evidence":["10 月 9 日"]},{"id":"q05","chapter":2,"kind":"letter","prompt":"五個基本子音中，ㅁ 模仿的是什麼？","choices":["舌根靠近軟顎","舌尖靠近齒齦","閉合的嘴唇","喉嚨"],"answer":2,"explain":"ㅁ 模仿閉合的嘴唇；ㄱ 是舌根、ㄴ 是舌尖、ㅇ 是喉嚨。","wiki":"02-consonants.md","sources":["S2"],"evidence":["ㅁ：閉合的嘴唇"]},{"id":"q06","chapter":2,"kind":"letter","prompt":"平音 ㄱ「加一畫」會變成哪個送氣音？","choices":["ㄲ","ㅋ","ㅎ","ㄴ"],"answer":1,"explain":"加一畫成為送氣音（ㄱ→ㅋ）；ㄲ 是並寫兩次的緊音。","wiki":"02-consonants.md","sources":["S2"],"evidence":["ㄱ→ㅋ"]},{"id":"q07","chapter":3,"kind":"letter","prompt":"「天、地、人」三個基本元素中，ㅣ 代表什麼？","choices":["天","地","人","嘴唇"],"answer":2,"explain":"ㆍ 是天、ㅡ 是地、ㅣ 是人（站立的）。","wiki":"03-vowels.md","sources":["S3"],"evidence":["（人，站立的）"]},{"id":"q08","chapter":3,"kind":"letter","prompt":"ㅐ 原為雙母音，由哪兩個母音構成？","choices":["ㅏ＋ㅣ","ㅓ＋ㅣ","ㅗ＋ㅣ","ㅡ＋ㅣ"],"answer":0,"explain":"ㅐ 由 ㅏ＋ㅣ 構成；ㅔ 由 ㅓ＋ㅣ 構成。","wiki":"03-vowels.md","sources":["S3"],"evidence":["ㅏ＋ㅣ、ㅓ＋ㅣ"]},{"id":"q09","chapter":4,"kind":"spelling","prompt":"ㅎ（初聲）＋ ㅏ（中聲）＋ ㄴ（終聲）組成哪一個音節？","choices":["한","핫","하","안"],"answer":0,"explain":"한 = ㅎ＋ㅏ＋ㄴ，是教材的拆解示例。","wiki":"04-syllables.md","sources":["S9"],"evidence":["한 = ㅎ＋ㅏ＋ㄴ"]},{"id":"q10","chapter":4,"kind":"spelling","prompt":"收音 ㅅ 出現在子音前面時，發成哪個代表音？","choices":["[ㄱ]","[ㄷ]","[ㅂ]","[ㅅ]"],"answer":1,"explain":"ㅅ ㅆ ㅈ ㅊ ㅌ 作收音時讀 [ㄷ]（例：빗、빚、빛 在子音前都是 [빋]）。","wiki":"04-syllables.md","sources":["S8"],"evidence":["ㅅ、ㅆ、ㅈ、ㅊ、ㅌ"]},{"id":"q11","chapter":4,"kind":"spelling","prompt":"「빛이」依連音規則，讀成哪一個？","choices":["[빋이]","[비시]","[비치]","[비지]"],"answer":2,"explain":"收音遇到母音開頭的助詞會連到下一音節：빛이 → [비치]。[비시] 是 빗이，[비지] 是 빚이。","wiki":"04-syllables.md","sources":["S8"],"evidence":["빛이→[비치]"]},{"id":"q12","chapter":5,"kind":"vocab","prompt":"單字「물」的中文意思是？","choices":["火","水","米飯","牛奶"],"answer":1,"explain":"물 = water，水。","wiki":"05-vocabulary.md","sources":["S11"],"evidence":["| 물 | mul | 水 |"]},{"id":"q13","chapter":5,"kind":"vocab","prompt":"「사과」是同形異義詞，詞典列出哪兩個意思？","choices":["蘋果、道歉","蘋果、牛奶","道歉、學校","朋友、道歉"],"answer":0,"explain":"사과^1 = 蘋果，사과^2 = 道歉。","wiki":"05-vocabulary.md","sources":["S11"],"evidence":["사과^2 = 道歉"]},{"id":"q14","chapter":6,"kind":"dialogue","prompt":"你要離開，對「留下的人」說再見，用哪一句？","choices":["안녕히 가세요","안녕히 계세요","감사합니다","괜찮아요"],"answer":1,"explain":"안녕히 계세요 是對留下的人說；안녕히 가세요 是對要離開的人說。","wiki":"06-conversation.md","sources":["S9"],"evidence":["| 안녕히 계세요 | Annyeonghi gyeseyo | 再見（對留下的人說） |"]},{"id":"q15","chapter":6,"kind":"match","prompt":"正確配對：把每句韓文配到中文意思。","pairs":[{"ko":"감사합니다","zh":"謝謝"},{"ko":"죄송합니다","zh":"對不起"},{"ko":"괜찮아요","zh":"沒關係"}],"options":["謝謝","對不起","沒關係"],"explain":"감사합니다 = 謝謝；죄송합니다 = 對不起；괜찮아요 = 沒關係。","wiki":"06-conversation.md","sources":["S9"],"evidence":["| 감사합니다 / 고맙습니다 | Gamsahamnida / Gomapseumnida | 謝謝 |","| 죄송합니다 / 미안합니다 | Joesonghamnida / Mianhamnida | 對不起 |","| 괜찮아요 | Gwaenchanayo | 沒關係 |"]}],"practice":{"dialogue":[{"id":"p1","scene":"對方問你 어떻게 지내세요?（你好嗎？）","prompt":"哪一句可以回答「我很好」？","choices":["잘 지내요","감사합니다","안녕히 계세요"],"answer":0,"explain":"잘 지내요 = 我很好。","wiki":"06-conversation.md","sources":["S9"],"evidence":["| 잘 지내요 | Jal jinaeyo | 我很好 |"]},{"id":"p2","scene":"你想知道對方的名字","prompt":"你可以問哪一句？","choices":["이름이 뭐예요?","다시 말씀해 주세요","죄송합니다"],"answer":0,"explain":"이름이 뭐예요? = 你的名字是什麼？","wiki":"06-conversation.md","sources":["S9"],"evidence":["| 이름이 뭐예요? | Ireumi mwoyeyo?【推論】 | 你的名字是什麼？ |"]},{"id":"p3","scene":"對方說得太快，你想請他說慢一點","prompt":"你可以說哪一句？","choices":["천천히 말씀해 주세요","안녕히 가세요","괜찮아요"],"answer":0,"explain":"천천히 말씀해 주세요 = 請說慢一點（此句只有 S9 一個來源）。","wiki":"06-conversation.md","sources":["S9"],"evidence":["| 천천히 말씀해 주세요 | Cheoncheonhi malsseumhae juseyo | 請說慢一點 |"]},{"id":"p4","scene":"朋友要離開了，你留在原地","prompt":"你對要離開的朋友說哪一句？","choices":["안녕히 계세요","안녕히 가세요","다시 말씀해 주세요"],"answer":1,"explain":"안녕히 가세요 是對要離開的人說。","wiki":"06-conversation.md","sources":["S9"],"evidence":["| 안녕히 가세요 | Annyeonghi gaseyo | 再見（對要離開的人說） |"]}]}},"data/workflow.json":{"meta":{"note":"第三階段實際執行紀錄；未執行項目標為『未執行』，不視為通過。","updated":"2026-11-23"},"nodes":[{"no":"①","name":"資料蒐集","short":"蒐集","input":"來源清單、搜尋關鍵字","process":"判斷來源用途、權威性、可存取性","output":"來源登記表","check":false,"repeat":false,"fail_return":"本節點重做","status":"done","note":""},{"no":"②","name":"資料擷取與 ingest","short":"ingest","input":"來源網址","process":"實際擷取，記錄狀態與取得範圍","output":"sources.json 的 ingest 紀錄","check":true,"repeat":true,"fail_return":"①","status":"done","note":""},{"no":"③","name":"內容檢查","short":"檢查","input":"ingest 紀錄","process":"檢查數字、術語與衝突","output":"檢查結果、待補清單","check":true,"repeat":true,"fail_return":"②","status":"done","note":""},{"no":"④","name":"建立 Wiki","short":"建 Wiki","input":"通過檢查的 ingest","process":"依統一模板寫章節並標註來源","output":"wiki/*.md","check":true,"repeat":true,"fail_return":"③","status":"done","note":""},{"no":"⑤","name":"查詢 Wiki","short":"查詢","input":"簡報需求","process":"只從 Wiki 取材，記錄使用與排除","output":"查詢紀錄","check":false,"repeat":false,"fail_return":"④","status":"done","note":""},{"no":"⑥","name":"整理教學摘要","short":"摘要","input":"查詢結果","process":"整理成投影片、卡片與測驗資料","output":"slides.json、quiz.json","check":false,"repeat":true,"fail_return":"⑤","status":"done","note":""},{"no":"⑦","name":"內容驗證","short":"驗證","input":"教學資料與 Wiki","process":"scripts/validate.py 逐項比對","output":"驗證報告","check":true,"repeat":true,"fail_return":"④／⑥","status":"done","note":""},{"no":"⑧","name":"生成 HTML","short":"生成","input":"通過驗證的資料","process":"生成頁面與互動","output":"index.html、css、js","check":false,"repeat":true,"fail_return":"⑥","status":"done","note":"生成過程中，驗證與測試各促成 1 次返回修正（見紀錄）"},{"no":"⑨","name":"功能測試","short":"測試","input":"網頁","process":"實際瀏覽器測試","output":"test-report.md","check":true,"repeat":true,"fail_return":"⑧","status":"partial","note":"Chromium 自動化測試 22/22 通過；Firefox、Safari、真機、真實韓文語音、人工核對來源未執行"},{"no":"⑩","name":"部署","short":"部署","input":"通過測試的版本","process":"推送並確認 GitHub Pages","output":"公開網址","check":true,"repeat":false,"fail_return":"⑨","status":"reserved","note":"保留給下一階段"}],"loops":[{"from":"③","to":"②","label":"資料不符／擷取失敗","when":"檢查發現數字不符、來源衝突、擷取失敗或被限流"},{"from":"⑦","to":"④","label":"Wiki 資料不足","when":"驗證發現句子無來源，或 Wiki 資料不足"},{"from":"⑦","to":"⑥","label":"措辭不一致","when":"摘要措辭與 Wiki 不一致，退回改寫"},{"from":"⑨","to":"⑧","label":"測試失敗","when":"任一功能測試失敗"},{"from":"⑩","to":"⑨","label":"網址異常","when":"公開網址無法開啟或功能異常"}],"wiki_queries":[{"id":"Q1","query":"01-introduction.md：韓文是什麼、字母數量、音節方塊、歷史","used":"19 子音／21 母音共 40 字母之說、音節方塊結構、訓民正音相關年代與創制者，以及 S9／S7 的衝突說明","excluded":"【待補來源】項目；未取得官方全文的敘述"},{"id":"Q2","query":"02-consonants.md：子音清單、緊音、羅馬字","used":"14 基本子音＋5 雙子音（緊音）、加畫規律、羅馬字（S2／S8 範圍內）","excluded":"各字母發音描述、平音／送氣音／緊音完整對照表（待補來源）"},{"id":"Q3","query":"03-vowels.md：基本與複合母音","used":"10 基本母音＋11 複合母音、天地人設計、羅馬字","excluded":"方塊內母音排版規則（待補來源）"},{"id":"Q4","query":"04-syllables-and-batchim.md：音節結構、七種代表音、雙收音","used":"初聲＋中聲＋可選終聲、七種終聲代表音、雙收音與連音說明（S8）","excluded":"ㅎ 收音讀法（待補來源）；其他音變"},{"id":"Q5","query":"05-vocabulary.md：20 個日常單字","used":"20 個單字的韓文、羅馬字（推導）、中文、分類，與 sources.json 的 vocabulary_entries 三方一致","excluded":"諧音中文標音（使用者決定不用）；사과 的『道歉』義項不在 Wiki 表格，不顯示"},{"id":"Q6","query":"06-conversation.md：5 組會話","used":"S9 為主的 13 句已驗證句；S10 僅作交叉比對標籤","excluded":"S10 單獨句子（만나서 반갑습니다、…입니다 等）；空白羅馬字的句子不給讀法、不提供朗讀"},{"id":"Q7","query":"index.md：章節與來源對照","used":"章節 ↔ 來源 ID 對照，用於 Knowledge 頁的來源表","excluded":"無"},{"id":"Q8","query":"sources/sources.json：狀態與驗證欄位","used":"11 筆 ingest 的狀態、取得範圍、human_check；failed_or_pending 與 rejected_candidates","excluded":"無；human_check 一律如實顯示為待處理"}],"validation_runs":[{"id":"V1","title":"資料階段首次驗證（data stage）","pass":60,"fail":4,"warn":1,"note":"發現 4 項問題，退回 ⑥ 修正","issues":["c1-features 的 evidence 含粗體標記，Wiki 內找不到（教學資料問題，已修）","c4-limits 文字出現『母音放右側』這類排版規則，屬待補來源（教學資料問題，已改為只說明『尚未涵蓋』）","會話句數預期值寫成 11，實際應為 13（驗證腳本本身的錯誤，已修）","사과 在 sources.json 為『蘋果；道歉』，Wiki 表格只有『蘋果』：既有檔案之間的不一致。未改動鎖定檔案，教學只顯示『蘋果』，驗證改為子集比對，並記錄於此"]},{"id":"V2","title":"資料階段複驗","pass":64,"fail":0,"warn":1,"note":"4 項修正後全數通過；1 項警告為尚未建立 js/hangul.js（當時屬預期）","issues":[]},{"id":"V3","title":"完整驗證（含網站靜態檢查與 hangul.js node 測試）","pass":85,"fail":0,"warn":0,"note":"含鎖定檔雜湊保護、11172 音節與 NFD 對照","issues":[]}],"tests":[{"id":"T01","name":"首頁內容與無錯誤載入","method":"Playwright／Chromium 桌機 1280×820","status":"passed","result":"6 張章節卡、標語、副標題、進度區皆存在"},{"id":"T02","name":"投影片：上一頁、下一頁、進度條、章節目錄","method":"Chromium 桌機","status":"passed","result":"共 43 張；上一頁／下一頁／進度條／章節目錄皆可用"},{"id":"T03","name":"鍵盤左右方向鍵切換","method":"Chromium 鍵盤事件","status":"passed","result":"← → 方向鍵切換正常"},{"id":"T04","name":"所有投影片逐張載入與章節完成進度","method":"Chromium 逐張載入","status":"passed","result":"43 張投影片逐張載入、顯示 Wiki 與來源；首頁顯示完成章節 6/6"},{"id":"T05","name":"子音卡片：翻面、切換、分類","method":"Chromium 桌機","status":"passed","result":"19 張（基本 14／緊音 5）；翻面、上一張／下一張、分類、背面羅馬字"},{"id":"T06","name":"母音卡片：翻面、切換、分類","method":"Chromium 桌機","status":"passed","result":"21 張（基本 10／複合 11）"},{"id":"T07","name":"字母組合器：Unicode 組合、清除、重新組合","method":"Chromium；與 unicodedata 獨立計算比對","status":"passed","result":"8 組點選結果與 unicodedata 一致；11172 個音節全數一致；U+D55C；清除／重新組合；ㅎ 收音不給讀法"},{"id":"T08","name":"拼音組合練習","method":"Chromium","status":"passed","result":"正確／錯誤回饋、顯示正確拆解、選單內方向鍵不換頁"},{"id":"T09","name":"單字翻牌（20 個）","method":"Chromium","status":"passed","result":"20 張單字逐張翻面，中文與羅馬字皆與資料一致；四個分類數量 6／5／4／5"},{"id":"T10","name":"小測驗：作答、回饋、計分、重新作答","method":"Chromium","status":"passed","result":"15 題；答錯顯示『錯誤、正確答案、解釋、Wiki 章節與來源』；全部答對顯示 15/15"},{"id":"T11","name":"學習進度：localStorage 保存與還原","method":"Chromium reload","status":"passed","result":"章節小測成績計入總分；重新整理後進度與位置保留（localStorage）"},{"id":"T12","name":"儲存降級：localStorage 不可用","method":"Chromium，注入 localStorage 例外","status":"passed","result":"localStorage 拋出 SecurityError 時，網站仍可作答；進度改存記憶體並提示"},{"id":"T13","name":"語音降級：瀏覽器不支援 Web Speech API","method":"Chromium，移除 speechSynthesis","status":"passed","result":"不支援 Web Speech API 時顯示提示，翻牌與組合器仍正常，無 JS 錯誤"},{"id":"T14","name":"語音降級：沒有韓文（ko）語音","method":"Chromium，speechSynthesis 替身（無 ko 語音）","status":"passed","result":"有語音引擎但沒有韓文語音時，顯示提示且不播放"},{"id":"T15","name":"語音：ko-KR 呼叫正確","method":"Chromium，speechSynthesis 替身（有 ko-KR）","status":"passed","result":"有 ko-KR 語音時，utterance.lang 為 ko-KR，且播放的文字正確（以替身物件驗證，非真實發音）"},{"id":"T16","name":"手機版（390×844 模擬）版面與目錄","method":"Chromium 手機模擬 390×844","status":"passed","result":"390px 寬：首頁、43 張投影片、測驗、Knowledge 頁皆無橫向溢出；目錄可收合；觸控目標 ≥ 40px"},{"id":"T17","name":"手機觸控滑動切換","method":"Chromium 合成 TouchEvent","status":"passed","result":"左滑下一頁、右滑上一頁、短距離不換頁（以合成 TouchEvent 驗證，非真實手指）"},{"id":"T18","name":"Knowledge & Workflow 頁面","method":"Chromium","status":"passed","result":"8 個區塊、來源表 11 列、流程圖 10 節點與 5 條返回路徑、人工核對狀態與排除項目"},{"id":"T19","name":"以 file:// 直接開啟","method":"Chromium 以 file:// 開啟","status":"passed","result":"file:// 開啟：fetch 被瀏覽器擋下，網站顯示友善錯誤與『python3 -m http.server』解法（非空白頁）"},{"id":"T20","name":"子路徑部署模擬（相對路徑）","method":"本機 HTTP 子路徑 /hangul-room/","status":"passed","result":"網站放在 /hangul-room/ 子路徑時，所有資料以相對路徑載入成功（模擬 GitHub Pages 專案頁面，非真實部署）"},{"id":"T21","name":"畫面內容規則（待補、推論、S10、人工核對）","method":"Chromium 掃描全部畫面文字","status":"passed","result":"全部投影片與測驗文字中，沒有待補來源標記、S10 單獨句子，也沒有宣稱已人工驗證"},{"id":"T22","name":"沒有外部資源依賴","method":"Chromium 網路請求清單","status":"passed","result":"共 8 個請求，全部來自本機站點，沒有 CDN／外部字型"},{"id":"N1","name":"Firefox／Safari／Edge 實機測試","method":"—","status":"not_run","result":"未安裝這些瀏覽器"},{"id":"N2","name":"真實手機（iOS／Android）操作與觸控","method":"—","status":"not_run","result":"只做 Chromium 手機模擬與合成觸控事件"},{"id":"N3","name":"真實韓文語音播放與發音品質","method":"—","status":"not_run","result":"只驗證程式呼叫 ko-KR 與降級流程，沒有聽音"},{"id":"N4","name":"來源人工核對（human_check）","method":"—","status":"not_run","result":"需使用者開原頁核對，全部維持 pending"},{"id":"N5","name":"GitHub Pages 實際部署與公開網址","method":"—","status":"not_run","result":"保留給第四階段，尚未部署"}],"log":[{"phase":"第二階段","no":"①②","step":"蒐集並 ingest 11 個來源","result":"成功","note":"krdict 手建網址失敗（F-01）、並行擷取 9/19 被限流（F-02），改用 dicMarinerSearch 並分批重試後成功"},{"phase":"第二階段","no":"③④","step":"內容檢查與建立 Wiki","result":"成功","note":"修正第 6 章羅馬字註記矛盾、第 5 章重複標題、S11 範圍描述"},{"phase":"第三階段","no":"⑤⑥","step":"查詢 Wiki、整理 slides.json／quiz.json","result":"成功","note":"43 張投影片、15 題測驗；每項附 evidence 字串"},{"phase":"第三階段","no":"⑦","step":"validate.py 首次驗證","result":"失敗","note":"FAIL 4（見 V1）→ 返回 ⑥ 修正，其中 1 項為驗證腳本自身錯誤"},{"phase":"第三階段","no":"⑦","step":"validate.py 複驗","result":"成功","note":"V2 64/0/1；V3 85/0/0"},{"phase":"第三階段","no":"⑧","step":"生成 index.html、css、js","result":"成功","note":"純靜態、無 CDN、相對路徑"},{"phase":"第三階段","no":"⑨","step":"瀏覽器測試第 1 輪","result":"失敗","note":"19/22。T07：測試預期值 끟 為手寫錯誤，實際 끻 才正確（測試腳本錯誤，改以 unicodedata 獨立計算）；T02、T16：測試腳本直接點未展開章節的目錄項（腳本操作錯誤，改為先展開章節）。網站本身沒有因此修改"},{"phase":"第三階段","no":"⑨","step":"瀏覽器測試第 2 輪","result":"成功","note":"22/22 通過（Chromium）。另在測試前加固 app.js：指定語音失敗時改以 lang=ko-KR 播放"},{"phase":"第三階段","no":"⑩","step":"GitHub Pages 部署","result":"部分","note":"未執行，保留給第四階段"}],"excluded":[{"item":"S10 單獨出現的會話句（만나서 반갑습니다、…입니다 等）","reason":"S10 為工具重建、韓文尚未人工核對，不單獨作為教學內容"},{"item":"ㅎ 收音讀法","reason":"待補來源；組合器只顯示『待補來源』"},{"item":"方塊內母音排版規則、音變、敬語等級","reason":"待補來源，簡報只標示尚未涵蓋"},{"item":"平音／送氣音／緊音完整對照表、各字母發音描述","reason":"待補來源"},{"item":"이름이 뭐예요？等句的羅馬字與朗讀","reason":"Wiki 標為推論，未經驗證，不顯示羅馬字；含空白欄位的句子不提供朗讀"},{"item":"사과 的『道歉』義項","reason":"Wiki 表格僅『蘋果』，與 sources.json 不一致，以 Wiki 為準"},{"item":"中文諧音標音","reason":"使用者決定不使用"}]},"sources/sources.json":{"project":"HANGUL ROOM — 韓文入門教室","record_date":"2026-11-23","schema_version":1,"method_note":"所有資料以 WebFetch 或 WebSearch 取得。WebFetch 回傳的是工具整理後的頁面摘要，不是逐字原始碼，因此 content_range 一律誠實標示『工具摘要』。verification 欄位中的 human_check 代表仍需使用者開啟原頁人工核對。未實際讀取的資料不得列為成功 ingest。","sources":[{"source_id":"S1","ingest_id":"ING-01","title":"國立國語院：韓文字母的基本原理 (Basic Principle of Hangeul)","url":"https://m.korean.go.kr/eng_hangeul/principle/001.html","publisher":"國立國語院 (National Institute of Korean Language)","authority":"官方","retrieved_at":"2026-11-23","status":"success","content_range":"工具摘要：頁面主文，含音節結構、字母數量。未取得頁面圖片。","summary":"韓文是音素文字，子音與母音各有獨立字母，並組合成音節方塊。音節含初聲、中聲與可有可無的終聲。初聲子音 19 個（ㅇ 作初聲時不發音）、母音 21 個、終聲 16 個單子音與 11 個雙子音；基本字母 24 個、複合字母 16 個。現行拼寫法以 1933 年草案為基礎，1988 年部分修訂。","wiki_chapters":["01","02","03","04"],"verification":{"tool_summary_checked":true,"human_check":"pending","note":"頁面未寫創製者，創製史實改用 S7、S6。"},"usage_restrictions":"只引用數字與概念，不照抄原文。"},{"source_id":"S2","ingest_id":"ING-02","title":"國立國語院：子音設計原理 (Principle of Consonants)","url":"https://www.korean.go.kr/eng_hangeul/principle/002.html","publisher":"國立國語院","authority":"官方","retrieved_at":"2026-11-23","status":"success","content_range":"工具摘要：頁面主文。","summary":"五個基本子音 ㄱ ㄴ ㅁ ㅅ ㅇ 模仿發音器官形狀。其他子音由基本字加畫而來，發音部位相同者字形相近，較強的音多加一畫（如 ㄷ 來自 ㄴ，ㅂ ㅈ ㅎ 分別對應 ㅁ ㅅ ㅇ）。平音加一畫成送氣音（ㅋ），平音並寫成緊音（ㄲ）。","wiki_chapters":["02"],"verification":{"tool_summary_checked":true,"human_check":"pending","note":"頁面僅以例子說明加畫規律，完整配對表未取得，Wiki 中完整配對標為推論。"},"usage_restrictions":"只引用概念，不照抄原文。"},{"source_id":"S3","ingest_id":"ING-03","title":"國立國語院：母音設計原理 (Principle of Vowels)","url":"https://www.korean.go.kr/eng_hangeul/principle/003.html","publisher":"國立國語院","authority":"官方","retrieved_at":"2026-11-23","status":"success","content_range":"工具摘要：頁面主文。","summary":"基本母音依天（ㆍ）、地（ㅡ）、人（ㅣ）三元素設計。ㅗ ㅜ 為 ㆍ 置於 ㅡ 之上或下；ㅏ ㅓ 為 ㆍ 置於 ㅣ 之右或左；ㅛ ㅠ ㅑ ㅕ 為 ㆍ 寫兩次、帶 ㅣ 滑音。ㅐ ㅔ 原為雙母音，由 ㅏ+ㅣ、ㅓ+ㅣ 構成。ㆍ 的發音已消失，今日不再使用。許多複合母音的發音已簡化，字形與發音的對應變得不明顯。","wiki_chapters":["03"],"verification":{"tool_summary_checked":true,"human_check":"pending","note":"各母音發音描述未取得。"},"usage_restrictions":"只引用概念，不照抄原文。"},{"source_id":"S4","ingest_id":"ING-04","title":"線上世宗學堂：韓語入門課程 (King Sejong Institute Korean Introductory 19)","url":"https://www.iksi.or.kr/lms/crse/crseApply.do?crseNo=120139","publisher":"世宗學堂財團 (King Sejong Institute Foundation)","authority":"官方","retrieved_at":"2026-11-23","status":"partial","content_range":"僅取得公開的課程說明與 18 堂大綱。未取得影片、講義與練習內容。課程期間 2026-03-30 至 2026-05-05，已結束；報名需登入。","summary":"英語授課的零基礎免費課程，教授母音、子音、收音，每課含生活標示導入、說明與練習、書寫練習。大綱涵蓋基本母音與子音、送氣與緊音、雙母音、收音、雙收音、連音與基本表達。","wiki_chapters":["01","04","06"],"verification":{"tool_summary_checked":true,"human_check":"pending","note":"只用作教學順序參考，不得宣稱已使用其教學內容。"},"usage_restrictions":"僅引用課程大綱主題。不得複製課程內容。"},{"source_id":"S5","ingest_id":"ING-05","title":"國立國語院：韓國語基礎詞典 (Basic Korean Dictionary) 首頁","url":"https://krdict.korean.go.kr/eng/mainAction","publisher":"國立國語院","authority":"官方","retrieved_at":"2026-11-23","status":"success","content_range":"工具摘要：首頁功能與介面說明。","summary":"韓英學習者詞典，提供搜尋、進階搜尋、分類搜尋，並列出多語詞典與 Open API 連結。無需登入。","wiki_chapters":["05","06"],"verification":{"tool_summary_checked":true,"human_check":"pending","note":"Open API 僅確認有入口，未實測。"},"usage_restrictions":"僅作為詞典入口紀錄，單字內容見 S11。"},{"source_id":"S6","ingest_id":"ING-06","title":"國立國語院：About Hangeul（韓文簡介）","url":"https://www.korean.go.kr/eng_hangeul/short/001.html","publisher":"國立國語院（內容署名為當時文化體育部長官 1996 年 12 月前言）","authority":"官方","retrieved_at":"2026-11-23","status":"success","content_range":"工具摘要：僅有一篇前言與導覽。導覽選單為圖片，無法讀取。長官姓名與出版者未提供。","summary":"前言稱世宗大王創制並推廣韓文已 550 年。引用《訓民正音》序文，列出三項目的：符合韓語語法與音韻的民族文字、讓所有人民能使用、便於學習外語以促進交流。提及自 1990 年起聯合國教科文組織頒發世宗大王識字獎。","wiki_chapters":["01"],"verification":{"tool_summary_checked":true,"human_check":"pending","note":"1996 年的前言，屬歷史性敘述，數據與表述可能過時。"},"usage_restrictions":"只引用概念與事實，不照抄原文。"},{"source_id":"S7","ingest_id":"ING-07","title":"國立國語院：Origin of Hangeul（韓文的起源）","url":"https://www.korean.go.kr/eng_hangeul/origin/001.html","publisher":"國立國語院","authority":"官方","retrieved_at":"2026-11-23","status":"success","content_range":"工具摘要：主文。導覽與側欄多為圖片，無法讀取。","summary":"歸功於世宗大王秘密進行。1443 年 12 月記載『創制 28 個諺文』；1446 年 9 月記載『訓民正音完成』，頁面指此為《解例本》完稿，而非頒布。鄭麟趾序文僅註明 1446 年 9 月上旬。韓文日原訂 10 月 29 日，後改為 10 月 9 日。頁面未說明創制動機。","wiki_chapters":["01"],"verification":{"tool_summary_checked":true,"human_check":"pending","note":"與 S9『1446 年正式頒布』的說法不同，已於 Wiki 第 1 章標示為來源衝突，以 S7 為準。"},"usage_restrictions":"只引用日期與史實，不照抄原文。"},{"source_id":"S8","ingest_id":"ING-08","title":"國立國語研究院：표준 발음「받침의 발음」（標準發音：收音的發音）","url":"https://www.korean.go.kr/nkview/nknews/199904/9_5.htm","publisher":"國立國語研究院《새국어생활》，作者 최혜원","authority":"官方（研究員專欄）","retrieved_at":"2026-11-23","status":"success","content_range":"工具摘要：專欄全文。頁面未標示發表日期（網址顯示約 1999 年 4 月）。","summary":"音節末只出現 ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅇ 七種音。ㅅ ㅆ ㅈ ㅊ ㅌ 讀 [ㄷ]；ㄲ ㅋ 讀 [ㄱ]；ㅍ 讀 [ㅂ]。雙收音只發一個音：ㄳ ㄵ ㄼ ㄽ ㄾ ㅄ 讀前者，ㄺ ㄻ ㄿ 讀後者，並有 ㄺ 在 ㄱ 前讀 [ㄹ]、밟다 讀 [ㅂ] 等例外。收音遇到以母音開頭的助詞時，後面的音節會帶出原本的收音（連音）。","wiki_chapters":["04"],"verification":{"tool_summary_checked":true,"human_check":"pending","note":"專欄摘要句漏列 ㅋ，內文有列；ㅎ 的收音規則專欄未提及，Wiki 中標為待補來源。"},"usage_restrictions":"只引用規則與例字，不照抄原文。"},{"source_id":"S9","ingest_id":"ING-09","title":"The Korea Society：Korean Language Resource Page（韓語資源頁）","url":"https://www.koreasociety.org/?p=17361","publisher":"The Korea Society（紐約），署名 WDM Team","authority":"非營利教育機構（非政府官方）","retrieved_at":"2026-11-23","status":"success","content_range":"工具摘要：韓文背景、母音與子音的羅馬字對照、常用問候與表達表、基本提問句、文化小測驗。連結的 Google Drive PDF、圖片與音訊未取得。頁面無專門的收音段落。","summary":"提供 21 個母音與 14 個基本子音、5 個緊音的羅馬字對照，以及約 25 句問候與常用表達的羅馬字與英文意思，另有 이름이 뭐예요? 等自我介紹句型。指出緊音不是基本子音的簡單重複。","wiki_chapters":["02","03","06"],"verification":{"tool_summary_checked":true,"human_check":"pending","note":"非官方來源，會話句型須與 S10 交叉比對；與 S7 在 1446 年頒布說法上衝突時以 S7 為準。"},"usage_restrictions":"只引用句型、羅馬字與意思，不照抄頁面文字或測驗。"},{"source_id":"S10","ingest_id":"ING-10","title":"University of British Columbia 韓語課程：Basic Expressions (I)","url":"https://korean.arts.ubc.ca/?p=3816","publisher":"UBC 韓語課程網站（頁面未註明出版者）","authority":"大學課程網站","retrieved_at":"2026-11-23","status":"partial","content_range":"工具摘要：23 組基本表達。頁面韓文有編碼亂碼，工具已自行重建韓文，沒有羅馬字，必須人工核對原頁。","summary":"列出是／否、問候、自我介紹（…입니다）、初次見面（만나서 반갑습니다、처음 뵙겠습니다）、道別（안녕히 가세요／계세요）、感謝（고맙습니다／감사합니다）、道歉（미안합니다／죄송합니다）、請進、請坐、電話用語等表達及英文意思。","wiki_chapters":["06"],"verification":{"tool_summary_checked":true,"human_check":"required","note":"韓文為工具重建，只能用來交叉比對 S9，不得單獨作為句型依據。"},"usage_restrictions":"只作交叉比對。"},{"source_id":"S11","ingest_id":"ING-11","title":"國立國語院：韓國語基礎詞典 — 20 個單字條目","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=<單字>","publisher":"國立國語院","authority":"官方","retrieved_at":"2026-11-23","status":"success","content_range":"20 筆查詢結果頁，皆由 WebFetch 取得工具摘要，取得詞性與英文釋義（部分含韓文釋義）。詞條頁只有『듣기』音檔連結，沒有音標或羅馬字，也沒有顯示例句。","summary":"20 個單字皆取得詞性與英文釋義，見 vocabulary_entries。","wiki_chapters":["05"],"verification":{"tool_summary_checked":true,"human_check":"pending","note":"繁體中文釋義為依英文釋義翻譯；羅馬字為依 S9 字母表以修訂版羅馬字法推導，非詞典提供。"},"usage_restrictions":"只引用詞性與釋義的意思，不照抄完整詞條。"}],"vocabulary_entries":[{"id":"V01","headword":"물","pos":"명사 名詞","english_gloss":"water","zh":"水","romanization_derived":"mul","category":"飲食","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EB%AC%BC","status":"success","note":"第一義：江、湖、海等的透明液體。"},{"id":"V02","headword":"밥","pos":"명사 名詞","english_gloss":"steamed rice; rice / meal","zh":"米飯；一餐","romanization_derived":"bap","category":"飲食","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EB%B0%A5","status":"success","note":"詞典列有五個義項，Wiki 只收前兩項。"},{"id":"V03","headword":"책","pos":"명사 名詞","english_gloss":"books; publications","zh":"書","romanization_derived":"chaek","category":"物品","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EC%B1%85","status":"success","note":"漢字 冊。"},{"id":"V04","headword":"학교","pos":"명사 名詞","english_gloss":"school","zh":"學校","romanization_derived":"hakgyo","category":"地點","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%ED%95%99%EA%B5%90","status":"success","note":"二次重試後取得（第一次被限流）。"},{"id":"V05","headword":"집","pos":"명사 名詞","english_gloss":"house","zh":"房子；住所","romanization_derived":"jip","category":"地點","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EC%A7%91","status":"success","note":"第一義：人或動物為禦寒避暑而建、供居住的建築。"},{"id":"V06","headword":"친구","pos":"명사 名詞","english_gloss":"friend","zh":"朋友","romanization_derived":"chingu","category":"人物","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EC%B9%9C%EA%B5%AC","status":"success","note":"漢字 親舊。"},{"id":"V07","headword":"가족","pos":"명사 名詞","english_gloss":"family","zh":"家人；家庭","romanization_derived":"gajok","category":"人物","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EA%B0%80%EC%A1%B1","status":"success","note":"漢字 家族。"},{"id":"V08","headword":"사람","pos":"명사 名詞","english_gloss":"human; man","zh":"人","romanization_derived":"saram","category":"人物","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EC%82%AC%EB%9E%8C","status":"success","note":"詞典列有九個義項，Wiki 只收第一義。"},{"id":"V09","headword":"이름","pos":"명사 名詞","english_gloss":"name","zh":"名字","romanization_derived":"ireum","category":"人物","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EC%9D%B4%EB%A6%84","status":"success","note":"與 S9 句型 이름이 뭐예요? 對應。"},{"id":"V10","headword":"나라","pos":"명사 名詞","english_gloss":"country; nation; state","zh":"國家","romanization_derived":"nara","category":"地點","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EB%82%98%EB%9D%BC","status":"success","note":"第二義為『夢想或幻想的世界』。"},{"id":"V11","headword":"시간","pos":"명사 名詞","english_gloss":"time; hours","zh":"時間","romanization_derived":"sigan","category":"時間","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EC%8B%9C%EA%B0%84","status":"success","note":"漢字 時間，列有五個以上義項。"},{"id":"V12","headword":"사과","pos":"명사 名詞","english_gloss":"apple (사과^1) / apology (사과^2)","zh":"蘋果；道歉","romanization_derived":"sagwa","category":"飲食","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EC%82%AC%EA%B3%BC","status":"success","note":"同形詞：사과^1 蘋果（沙果），사과^2 道歉（謝過）。"},{"id":"V13","headword":"우유","pos":"명사 名詞","english_gloss":"milk","zh":"牛奶","romanization_derived":"uyu","category":"飲食","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EC%9A%B0%EC%9C%A0","status":"success","note":""},{"id":"V14","headword":"버스","pos":"명사 名詞","english_gloss":"bus","zh":"公車；巴士","romanization_derived":"beoseu","category":"物品","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EB%B2%84%EC%8A%A4","status":"success","note":""},{"id":"V15","headword":"가방","pos":"명사 名詞","english_gloss":"bag","zh":"包包；袋子","romanization_derived":"gabang","category":"物品","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EA%B0%80%EB%B0%A9","status":"success","note":""},{"id":"V16","headword":"한국","pos":"명사 名詞","english_gloss":"Korea","zh":"韓國","romanization_derived":"hanguk","category":"地點","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%ED%95%9C%EA%B5%AD","status":"success","note":"詞典說明亦稱大韓民國或南韓，首都首爾。"},{"id":"V17","headword":"오늘","pos":"명사 名詞","english_gloss":"today","zh":"今天","romanization_derived":"oneul","category":"時間","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EC%98%A4%EB%8A%98","status":"success","note":"第二義為『現在、當今』。"},{"id":"V18","headword":"커피","pos":"명사 名詞","english_gloss":"coffee","zh":"咖啡","romanization_derived":"keopi","category":"飲食","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EC%BB%A4%ED%94%BC","status":"success","note":"二次重試後取得。"},{"id":"V19","headword":"어머니","pos":"명사 名詞","english_gloss":"mother","zh":"母親","romanization_derived":"eomeoni","category":"人物","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EC%96%B4%EB%A8%B8%EB%8B%88","status":"success","note":"第一義：生下你的女性，或對她的稱呼。"},{"id":"V20","headword":"김치","pos":"명사 名詞","english_gloss":"kimchi","zh":"泡菜","romanization_derived":"gimchi","category":"飲食","source":"S11","url":"https://krdict.korean.go.kr/eng/dicMarinerSearch/search?nation=eng&mainSearchWord=%EA%B9%80%EC%B9%98","status":"success","note":"以鹽醃白菜或蘿蔔等蔬菜，加調味料發酵製成的食物。"}],"failed_or_pending":[{"id":"F-01","target":"krdict 搜尋頁（自行拼接網址 mainSearchWord=물，未編碼，路徑 dicSearch/search）","status":"failed","reason":"WebFetch 回傳 client_error，沒有取得內容。","resolution":"改用搜尋結果中出現過的 dicMarinerSearch 網址格式，並對韓文做網址編碼，之後成功。"},{"id":"F-02","target":"krdict 單字查詢（19 筆並行）","status":"partial_then_resolved","reason":"並行請求導致其中 9 筆被限流（RATE_LIMIT_EXCEEDED）。","resolution":"分小批重試，全部 20 筆最終成功。"},{"id":"P-01","target":"標準發音法（표준 발음법）官方全文，含收音相關條文","status":"pending","reason":"搜尋結果僅有維基文庫與第三方 PDF 轉載，沒有實際擷取國立國語院官方全文。","resolution":"待補來源。第 4 章以 S8 專欄為主，ㅎ 收音規則標示待補。"},{"id":"P-02","target":"世宗學堂《Sejong Korean》教材","status":"pending","reason":"只在書單搜尋結果中看到名稱，未取得教材內容。","resolution":"待處理，不列入已 ingest。"},{"id":"P-03","target":"S9 連結的 Google Drive 羅馬字對照 PDF","status":"not_accessed","reason":"工具未取得其內容。","resolution":"未使用。"}],"rejected_candidates":[{"url":"https://stevengnb.github.io/korean-learning/01-beginner/01-hangul/batchim","reason":"個人學習筆記網站，權威性不足，僅出現在搜尋摘要，未採用。"},{"url":"https://elon.io/grammar/korean/hangul/batchim-seven-sounds","reason":"商業語法網站，僅看到搜尋摘要，未採用。"},{"url":"https://cursa.app/en/article/korean-batchim-explained-final-consonants-the-7-sounds-and-linking-rules","reason":"課程平台文章，僅搜尋摘要，未採用。"},{"url":"https://asha.org/uploadedFiles/KoreanPhonemicInventory.pdf","reason":"只讀到搜尋摘要，未擷取全文。學術背景可信但未實際閱讀，僅記錄作為後續查證線索。"},{"url":"https://www.wikipedia.org/wiki/Hangul","reason":"百科條目，僅搜尋摘要，不作為教學內容來源。"}]}};
+</script>
+<script>
+/* HANGUL ROOM — 韓文音節的 Unicode 組合與拆解
+ *
+ * 公式（Unicode 標準，Hangul Syllables 區塊）：
+ *   code point = 0xAC00 + (初聲索引 × 21 + 中聲索引) × 28 + 終聲索引
+ * 初聲 19 個、中聲 21 個、終聲 28 個（索引 0 代表沒有終聲）。
+ * 注意：這是技術實作；教學說明仍須遵守 Wiki 規則。
+ */
+(function (root) {
+  'use strict';
+
+  var CHOSEONG = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+  var JUNGSEONG = ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ'];
+  var JONGSEONG = ['', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+
+  var BASE = 0xAC00;
+  var LAST = 0xD7A3;
+
+  function isInt(n, min, max) {
+    return typeof n === 'number' && n % 1 === 0 && n >= min && n <= max;
+  }
+
+  /** 以索引組合音節。t 省略或 0 代表沒有終聲。 */
+  function compose(l, v, t) {
+    t = t || 0;
+    if (!isInt(l, 0, 18) || !isInt(v, 0, 20) || !isInt(t, 0, 27)) {
+      throw new RangeError('索引超出範圍：初聲 0–18、中聲 0–20、終聲 0–27');
+    }
+    return String.fromCharCode(BASE + (l * 21 + v) * 28 + t);
+  }
+
+  /** 以字母（相容字母，如 ㅎ ㅏ ㄴ）組合音節；找不到字母時回傳 null。 */
+  function composeJamo(lJamo, vJamo, tJamo) {
+    var l = CHOSEONG.indexOf(lJamo);
+    var v = JUNGSEONG.indexOf(vJamo);
+    var t = tJamo ? JONGSEONG.indexOf(tJamo) : 0;
+    if (l < 0 || v < 0 || t < 0) return null;
+    return compose(l, v, t);
+  }
+
+  /** 拆解音節，回傳索引與字母；不是韓文音節時回傳 null。 */
+  function decompose(ch) {
+    if (typeof ch !== 'string' || ch.length !== 1) return null;
+    var code = ch.charCodeAt(0);
+    if (code < BASE || code > LAST) return null;
+    var c = code - BASE;
+    var l = Math.floor(c / 588);
+    var v = Math.floor((c % 588) / 28);
+    var t = c % 28;
+    return { l: l, v: v, t: t, lJamo: CHOSEONG[l], vJamo: JUNGSEONG[v], tJamo: JONGSEONG[t], code: code };
+  }
+
+  /** 收音讀法提示：只收 Wiki 第 4 章（S8）已有的項目；其餘回傳 null。 */
+  var SEVEN = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅇ'];
+  var FINAL_HINTS = {
+    'ㄲ': { text: '讀 [ㄱ]（例：밖、닦다）', src: 'S8' },
+    'ㅋ': { text: '讀 [ㄱ]（例：부엌、남녘）', src: 'S8' },
+    'ㅅ': { text: '讀 [ㄷ]（빗、빚、빛 在子音前都是 [빋]）', src: 'S8' },
+    'ㅆ': { text: '讀 [ㄷ]（例：있다→[읻따]）', src: 'S8' },
+    'ㅈ': { text: '讀 [ㄷ]（빚 在子音前是 [빋]）', src: 'S8' },
+    'ㅊ': { text: '讀 [ㄷ]（빛 在子音前是 [빋]）', src: 'S8' },
+    'ㅌ': { text: '讀 [ㄷ]（例：밭도→[받또]）', src: 'S8' },
+    'ㅍ': { text: '讀 [ㅂ]（例：앞、무릎）', src: 'S8' },
+    'ㄳ': { text: '雙收音：發前一個音（例：넋→[넉]）', src: 'S8' },
+    'ㄵ': { text: '雙收音：發前一個音（例：앉다→[안따]）', src: 'S8' },
+    'ㄼ': { text: '雙收音：通常發前一個音（例：여덟→[여덜]）；밟다 是例外，讀 [ㅂ]', src: 'S8' },
+    'ㄽ': { text: '雙收音：發前一個音', src: 'S8' },
+    'ㄾ': { text: '雙收音：發前一個音（例：핥다→[할따]）', src: 'S8' },
+    'ㅄ': { text: '雙收音：發前一個音（例：값→[갑]）', src: 'S8' },
+    'ㄺ': { text: '雙收音：發後一個音（例：닭→[닥]）；動詞、形容詞語幹的 ㄺ 在 ㄱ 前讀 [ㄹ]（例：맑게→[말께]）', src: 'S8' },
+    'ㄻ': { text: '雙收音：發後一個音（例：삶→[삼]）', src: 'S8' },
+    'ㄿ': { text: '雙收音：發後一個音（例：읊다→[읍따]）', src: 'S8' }
+  };
+
+  function finalHint(tJamo) {
+    if (!tJamo) return { kind: 'none', text: '沒有終聲。' };
+    if (FINAL_HINTS[tJamo]) return { kind: 'sourced', text: FINAL_HINTS[tJamo].text, src: FINAL_HINTS[tJamo].src };
+    if (SEVEN.indexOf(tJamo) >= 0) return { kind: 'seven', text: '屬於收音的七種代表音之一（ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅇ）', src: 'S8' };
+    return { kind: 'missing', text: 'Wiki 尚無這個收音的讀法說明（待補來源），本教材不講解。' };
+  }
+
+  var api = {
+    CHOSEONG: CHOSEONG,
+    JUNGSEONG: JUNGSEONG,
+    JONGSEONG: JONGSEONG,
+    BASE: BASE,
+    compose: compose,
+    composeJamo: composeJamo,
+    decompose: decompose,
+    finalHint: finalHint
+  };
+
+  root.Hangul = api;
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+  <script>
+/* HANGUL ROOM — 教學簡報主程式（純 HTML／CSS／JavaScript，無建置步驟）
+ * 資料來源：data/slides.json、data/quiz.json、sources/sources.json、data/workflow.json
+ * 所有教學內容皆由 Wiki 整理而來；每張投影片都標示 Wiki 檔案與來源 ID。 */
+(function () {
+  'use strict';
+
+  var H = window.Hangul;
+  var app = document.getElementById('app');
+  var D = null;          // { slides, quiz, sources, workflow }
+  var SRC = {};          // source_id -> source record
+  var CH = {};           // chapter id -> chapter
+  var SLIDES = [];       // flat list
+  var current = { view: null, slideIndex: 0 };
+
+  /* ------------------------------------------------------------------ 儲存（localStorage，失敗則用記憶體） */
+  var memoryStore = {};
+  var storageOK = (function () {
+    try {
+      var k = '__hangul_room_test__';
+      window.localStorage.setItem(k, '1');
+      window.localStorage.removeItem(k);
+      return true;
+    } catch (e) { return false; }
+  })();
+  function sget(k) {
+    try { if (storageOK) return window.localStorage.getItem(k); } catch (e) { storageOK = false; }
+    return Object.prototype.hasOwnProperty.call(memoryStore, k) ? memoryStore[k] : null;
+  }
+  function sset(k, v) {
+    try { if (storageOK) { window.localStorage.setItem(k, v); return; } } catch (e) { storageOK = false; }
+    memoryStore[k] = v;
+  }
+
+  var PROG_KEY = 'hangulRoom.progress.v1';
+  var progress = (function () {
+    var empty = { visited: {}, answers: {}, last: null };
+    try {
+      var raw = sget(PROG_KEY);
+      if (!raw) return empty;
+      var p = JSON.parse(raw);
+      if (p && typeof p === 'object') return { visited: p.visited || {}, answers: p.answers || {}, last: p.last || null };
+    } catch (e) { /* 損毀的資料就重新開始 */ }
+    return empty;
+  })();
+  function saveProgress() { sset(PROG_KEY, JSON.stringify(progress)); }
+
+  /* ------------------------------------------------------------------ 工具 */
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function go(path) { window.location.hash = '#/' + path; }
+  var toastTimer = null;
+  function toast(msg, ms) {
+    var t = document.getElementById('toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, ms || 4800);
+  }
+
+  function chip(id, cross) {
+    var s = SRC[id];
+    var cls = 'chip';
+    var title = id;
+    if (s) {
+      cls += s.status === 'success' ? ' ok' : (s.status === 'partial' ? ' part' : '');
+      title = id + '｜' + s.title + '｜擷取：' + s.status + '｜人工核對：' + (s.verification ? s.verification.human_check : '?');
+    }
+    if (cross) cls += ' cross';
+    return '<span class="' + cls + '" title="' + esc(title) + '">' + esc(id) + '</span>';
+  }
+  function chips(list, cross) { return '<span class="chips">' + (list || []).map(function (i) { return chip(i, cross); }).join('') + '</span>'; }
+
+  /* ------------------------------------------------------------------ 語音（Web Speech API，ko-KR；不支援時安全降級） */
+  var Speech = {
+    supported: function () {
+      try { return !!(window.speechSynthesis && typeof window.SpeechSynthesisUtterance !== 'undefined'); } catch (e) { return false; }
+    },
+    koVoice: function () {
+      try {
+        var vs = window.speechSynthesis.getVoices() || [];
+        return { count: vs.length, voice: vs.filter(function (v) { return /^ko([-_]|$)/i.test(v.lang || ''); })[0] || null };
+      } catch (e) { return { count: 0, voice: null }; }
+    },
+    say: function (text) {
+      try {
+        if (!text) return;
+        if (!Speech.supported()) {
+          toast('這個瀏覽器不支援語音播放（Web Speech API），但其他功能都可以正常使用。');
+          return;
+        }
+        var info = Speech.koVoice();
+        if (info.count > 0 && !info.voice) {
+          toast('沒有偵測到韓文（ko-KR）語音，無法播放。可以在系統設定安裝韓文語音；其他功能不受影響。');
+          return;
+        }
+        window.speechSynthesis.cancel();
+        var u = new window.SpeechSynthesisUtterance(text);
+        u.lang = 'ko-KR';
+        u.rate = 0.9;
+        try { if (info.voice) u.voice = info.voice; } catch (e) { /* 指定語音失敗時仍以 lang=ko-KR 播放 */ }
+        u.onerror = function () { toast('語音播放失敗，可能是此裝置沒有可用的韓文語音。其他功能不受影響。'); };
+        window.speechSynthesis.speak(u);
+      } catch (e) {
+        toast('語音播放發生問題，已安全略過。其他功能不受影響。');
+      }
+    }
+  };
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('[data-say]') : null;
+    if (b) { e.preventDefault(); Speech.say(b.getAttribute('data-say')); }
+  });
+  function speakBtn(text, label) {
+    return '<button class="speak" type="button" data-say="' + esc(text) + '" aria-label="播放發音：' + esc(label || text) + '" title="播放韓文發音（瀏覽器合成語音）">🔊</button>';
+  }
+
+  /* ------------------------------------------------------------------ 進度與測驗統計 */
+  function chapterStats() {
+    return D.slides.chapters.map(function (c) {
+      var list = SLIDES.filter(function (s) { return s.chapter === c.id; });
+      var seen = list.filter(function (s) { return progress.visited[s.id]; }).length;
+      return { id: c.id, total: list.length, seen: seen, done: list.length > 0 && seen === list.length };
+    });
+  }
+  function scoreInfo() {
+    var qs = D.quiz.questions;
+    var answered = 0, correct = 0;
+    qs.forEach(function (q) {
+      var a = progress.answers[q.id];
+      if (a) { answered++; if (a.ok) correct++; }
+    });
+    return { total: qs.length, answered: answered, correct: correct };
+  }
+  function updatePill() {
+    var cs = chapterStats().filter(function (c) { return c.done; }).length;
+    var sc = scoreInfo();
+    var el = document.getElementById('topPill');
+    if (el) el.textContent = '章節 ' + cs + '/6 · 測驗 ' + sc.correct + '/' + sc.total + (storageOK ? '' : ' · 記憶體模式');
+  }
+
+  /* ------------------------------------------------------------------ 載入資料 */
+  function getJSON(url) {
+    // 單檔版（hangul-room.html）會把資料內嵌在 window.__HANGUL_DATA__，優先使用，不需 fetch
+    if (window.__HANGUL_DATA__ && window.__HANGUL_DATA__[url]) return Promise.resolve(window.__HANGUL_DATA__[url]);
+    return fetch(url).then(function (r) {
+      if (!r.ok) throw new Error(url + ' → HTTP ' + r.status);
+      return r.json();
+    });
+  }
+  function showLoadError(err) {
+    var isFile = location.protocol === 'file:';
+    app.innerHTML = '<div class="loadfail"><h2>資料載入失敗</h2>' +
+      '<p>' + esc(err && err.message ? err.message : err) + '</p>' +
+      (isFile
+        ? '<p>你是用 <b>file://</b> 直接開啟網頁。瀏覽器基於安全限制，通常不允許網頁讀取本機的 JSON 檔（fetch 會被擋下）。請改用本機 HTTP 伺服器：</p>'
+        : '<p>請確認 data/、sources/ 資料夾與檔案都有一併上傳，且網址路徑正確。</p>') +
+      '<pre>cd hangul-room\npython3 -m http.server 8000\n# 然後開啟 http://localhost:8000/</pre>' +
+      '<p class="small-note">部署到 GitHub Pages 時是以 HTTP(S) 提供檔案，不會有這個問題。</p></div>';
+  }
+
+  /* ------------------------------------------------------------------ 路由 */
+  function parseHash() {
+    var h = (location.hash || '').replace(/^#\/?/, '');
+    var p = h.split('/');
+    return { view: p[0] || 'home', arg: p.slice(1).join('/') };
+  }
+  function route() {
+    if (!D) return;
+    var r = parseHash();
+    var view = ['home', 'slides', 'quiz', 'knowledge'].indexOf(r.view) >= 0 ? r.view : 'home';
+    current.view = view;
+    $$('.nav button').forEach(function (b) {
+      if (b.getAttribute('data-nav') === view) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    });
+    try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch (e) { /* 忽略 */ }
+    if (view === 'home') renderHome();
+    else if (view === 'slides') renderSlides(r.arg);
+    else if (view === 'quiz') renderQuizView();
+    else renderKnowledge();
+    if (view !== 'slides') window.scrollTo(0, 0);
+    updatePill();
+  }
+
+  /* ------------------------------------------------------------------ 首頁 */
+  function renderHome() {
+    var M = D.slides.meta;
+    var cs = chapterStats();
+    var doneN = cs.filter(function (c) { return c.done; }).length;
+    var sc = scoreInfo();
+    var last = progress.last && SLIDES.filter(function (s) { return s.id === progress.last; })[0];
+    var html = '<div class="view">' +
+      '<section class="hero"><div class="hero-deco" aria-hidden="true"><i>ㄱ</i><i>ㅏ</i><i>ㄴ</i><i>ㅓ</i></div>' +
+      '<div class="hero-inner"><h1>HANGUL ROOM</h1>' +
+      '<p class="tag">' + esc(M.tagline) + '</p>' +
+      '<p class="sub">' + esc(M.subtitle) + '</p>' +
+      '<div class="hero-actions"><button class="btn primary" id="startBtn">開始學習</button>' +
+      (last ? '<button class="btn" id="resumeBtn">繼續：' + esc(last.title) + '</button>' : '') +
+      '<button class="btn ghost" id="kwBtn">Knowledge &amp; Workflow</button></div></div></section>' +
+      '<div class="container" style="padding-top:0">' +
+      '<div class="section-title"><h2>學習進度</h2><small>' + (storageOK ? '儲存在這個瀏覽器（localStorage）' : '此瀏覽器無法儲存，改用記憶體；重新整理後會歸零') + '</small></div>' +
+      '<div class="progress-card">' +
+      '<div class="stat"><div class="num">' + doneN + ' / 6</div><div class="lab">完成章節</div><div class="bar"><span style="width:' + Math.round(doneN / 6 * 100) + '%"></span></div><div class="sm">看完一章所有投影片才算完成</div></div>' +
+      '<div class="stat"><div class="num">' + sc.correct + ' / ' + sc.total + '</div><div class="lab">測驗答對題數</div><div class="bar"><span style="width:' + Math.round(sc.answered / sc.total * 100) + '%"></span></div><div class="sm">已作答 ' + sc.answered + ' 題</div></div>' +
+      '<div class="stat"><div class="num" style="font-size:1.2rem">' + (last ? esc(last.title) : '尚未開始') + '</div><div class="lab">目前學習位置</div>' +
+      (last ? '<div class="sm">' + esc(CH[last.chapter].code) + '｜' + esc(CH[last.chapter].title) + '</div>' : '') + '</div></div>' +
+      '<div class="section-title"><h2>六個教學章節</h2><small>內容皆來自專案 Wiki</small></div><div class="chapter-grid">' +
+      D.slides.chapters.map(function (c) {
+        var st = cs.filter(function (x) { return x.id === c.id; })[0];
+        var first = SLIDES.filter(function (s) { return s.chapter === c.id; })[0];
+        return '<button class="chapter-card" data-go="slides/' + first.id + '"><span class="code">' + esc(c.code) + '</span>' +
+          '<span class="ttl"><span>' + esc(c.title) + '</span><span class="ko">' + esc(c.ko) + '</span></span>' +
+          '<span class="bl">' + esc(c.blurb) + '</span>' +
+          '<span class="meta"><span>' + st.seen + '/' + st.total + ' 頁' + (st.done ? ' <span class="done-badge">✓ 完成</span>' : '') + '</span>' + chips(c.sources) + '</span></button>';
+      }).join('') + '</div></div></div>';
+    app.innerHTML = html;
+    $('#startBtn').onclick = function () { go('slides/' + (last ? last.id : SLIDES[0].id)); };
+    var rb = $('#resumeBtn'); if (rb) rb.onclick = function () { go('slides/' + last.id); };
+    $('#kwBtn').onclick = function () { go('knowledge'); };
+    $$('[data-go]', app).forEach(function (b) { b.onclick = function () { go(b.getAttribute('data-go')); }; });
+  }
+
+  /* ------------------------------------------------------------------ 簡報檢視 */
+  function renderSlides(arg) {
+    var idx = -1;
+    if (arg) SLIDES.forEach(function (s, i) { if (s.id === arg) idx = i; });
+    if (idx < 0) {
+      var li = progress.last ? SLIDES.map(function (s) { return s.id; }).indexOf(progress.last) : -1;
+      idx = li >= 0 ? li : 0;
+    }
+    current.slideIndex = idx;
+    var s = SLIDES[idx];
+    progress.visited[s.id] = true;
+    progress.last = s.id;
+    saveProgress();
+
+    var toc = '<aside class="toc" id="toc" aria-label="章節目錄"><h3>章節目錄</h3>' +
+      D.slides.chapters.map(function (c) {
+        var list = SLIDES.filter(function (x) { return x.chapter === c.id; });
+        var seen = list.filter(function (x) { return progress.visited[x.id]; }).length;
+        return '<details' + (c.id === s.chapter ? ' open' : '') + '><summary><span>' + esc(c.code.replace('Chapter ', 'Ch')) + ' ' + esc(c.title) + '</span><span class="cnt">' + seen + '/' + list.length + '</span></summary><ol>' +
+          list.map(function (x) {
+            return '<li><button data-slide="' + x.id + '"' + (x.id === s.id ? ' aria-current="true"' : '') + (progress.visited[x.id] ? ' class="seen"' : '') + '>' + esc(x.title) + '</button></li>';
+          }).join('') + '</ol></details>';
+      }).join('') + '</aside>';
+
+    app.innerHTML = '<div class="view deck">' + toc +
+      '<section class="stage-wrap" aria-label="投影片">' +
+      '<div class="stage-head"><button class="btn small toc-toggle" id="tocBtn" aria-expanded="false" aria-controls="toc">☰ 目錄</button>' +
+      '<span class="where">' + esc(CH[s.chapter].code) + '｜' + esc(CH[s.chapter].title) + ' · 第 ' + (idx + 1) + ' / ' + SLIDES.length + ' 張</span>' +
+      '<div class="progressbar" role="progressbar" aria-valuemin="1" aria-valuemax="' + SLIDES.length + '" aria-valuenow="' + (idx + 1) + '"><span style="width:' + Math.round((idx + 1) / SLIDES.length * 100) + '%"></span></div></div>' +
+      '<article class="slide" id="slide" aria-live="polite"></article>' +
+      '<div class="nav-row"><button class="btn" id="prevBtn"' + (idx === 0 ? ' disabled' : '') + '>← 上一頁</button>' +
+      '<span class="mid">' + esc(s.title) + '</span>' +
+      '<button class="btn primary" id="nextBtn"' + (idx === SLIDES.length - 1 ? ' disabled' : '') + '>下一頁 →</button></div>' +
+      '<p class="hint">鍵盤 ← → 可切換；手機可左右滑動。</p></section></div>';
+
+    renderSlideInto($('#slide'), s);
+
+    $('#prevBtn').onclick = function () { stepSlide(-1); };
+    $('#nextBtn').onclick = function () { stepSlide(1); };
+    $$('#toc [data-slide]').forEach(function (b) { b.onclick = function () { go('slides/' + b.getAttribute('data-slide')); }; });
+    var tb = $('#tocBtn');
+    tb.onclick = function () {
+      var t = $('#toc'); var open = t.classList.toggle('open');
+      tb.setAttribute('aria-expanded', open ? 'true' : 'false');
+      var sc = $('#scrim'); if (sc) sc.remove();
+      if (open) {
+        var d = document.createElement('div'); d.className = 'scrim'; d.id = 'scrim';
+        d.onclick = function () { t.classList.remove('open'); d.remove(); tb.setAttribute('aria-expanded', 'false'); };
+        document.body.appendChild(d);
+      }
+    };
+    bindSwipe($('#slide'));
+    updatePill();
+  }
+  function stepSlide(d) {
+    var n = current.slideIndex + d;
+    if (n < 0 || n >= SLIDES.length) return;
+    var sc = $('#scrim'); if (sc) sc.remove();
+    go('slides/' + SLIDES[n].id);
+    window.scrollTo(0, 0);
+  }
+  document.addEventListener('keydown', function (e) {
+    if (current.view !== 'slides') return;
+    var t = e.target;
+    if (t && (/^(INPUT|SELECT|TEXTAREA)$/.test(t.tagName) || t.isContentEditable)) return;
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.key === 'ArrowRight') { stepSlide(1); }
+    else if (e.key === 'ArrowLeft') { stepSlide(-1); }
+  });
+  function bindSwipe(el) {
+    var x0 = null, y0 = null;
+    el.addEventListener('touchstart', function (e) {
+      if (e.touches.length !== 1) { x0 = null; return; }
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+    }, { passive: true });
+    el.addEventListener('touchend', function (e) {
+      if (x0 == null) return;
+      var t = e.changedTouches[0];
+      var dx = t.clientX - x0, dy = t.clientY - y0;
+      x0 = null;
+      if (Math.abs(dx) > 70 && Math.abs(dy) < 50) stepSlide(dx < 0 ? 1 : -1);
+    }, { passive: true });
+  }
+
+  function footHtml(s) {
+    var srcs = s.sources || [];
+    var pend = srcs.some(function (id) { var x = SRC[id]; return x && x.verification && x.verification.human_check !== 'verified'; });
+    return '<div class="slide-foot"><span>Wiki：<code>wiki/' + esc(s.wiki) + '</code></span><span>來源 ' + chips(srcs) + '</span>' +
+      (s.crosscheck ? '<span>交叉比對 ' + chips(s.crosscheck, true) + '（韓文待人工核對，不作為主要依據）</span>' : '') +
+      (pend ? '<span>人工核對：尚未完成</span>' : '') + '</div>';
+  }
+
+  function renderSlideInto(box, s) {
+    var head = '<div class="ch">' + esc(CH[s.chapter].code) + '</div><h2>' + esc(s.title) + '</h2>';
+    var body = '';
+    switch (s.type) {
+      case 'objectives':
+        body = '<ol class="obj-list">' + s.items.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ol>'; break;
+      case 'bullets':
+        body = '<ul class="points">' + s.items.map(function (i) { return '<li><span>' + esc(i.t) + '</span>' + chips(i.s) + '</li>'; }).join('') + '</ul>'; break;
+      case 'table':
+        body = '<div class="tbl-wrap"><table class="tbl"><thead><tr>' + s.headers.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+          s.rows.map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>'; break;
+      case 'syllable':
+        var p = s.parts;
+        body = '<div class="syl-demo"><div class="box"><div class="big ko">' + esc(p.l) + '</div><div class="cap">初聲</div></div><span class="op">＋</span>' +
+          '<div class="box"><div class="big ko">' + esc(p.v) + '</div><div class="cap">中聲</div></div><span class="op">＋</span>' +
+          '<div class="box"><div class="big ko">' + esc(p.t) + '</div><div class="cap">終聲（可有可無）</div></div><span class="op">＝</span>' +
+          '<div class="box"><div class="big res ko">' + esc(p.result) + '</div><div class="cap">音節方塊</div></div>' + speakBtn(p.result) + '</div>' +
+          '<ul class="points">' + s.items.map(function (i) { return '<li><span>' + esc(i.t) + '</span>' + chips(i.s) + '</li>'; }).join('') + '</ul>'; break;
+      case 'timeline':
+        body = '<div class="timeline">' + s.events.map(function (e) { return '<div class="ev"><div class="when">' + esc(e.when) + ' ' + chips(e.s) + '</div><div>' + esc(e.text) + '</div></div>'; }).join('') + '</div>'; break;
+      case 'notice':
+        body = '<div class="notice ' + esc(s.tone || 'info') + '">' + esc(s.text) + '</div>'; break;
+      case 'cards': case 'vocab':
+        body = '<div class="deck-viewer" id="deckBox"></div>'; break;
+      case 'combiner':
+        body = '<div id="combBox"></div>'; break;
+      case 'practice':
+        body = '<div id="pracBox"></div>'; break;
+      case 'dialogue':
+        body = '<div class="dlg">' + s.lines.map(function (l) {
+          return '<div class="line"><div class="txt"><div class="k ko">' + esc(l.ko) + '</div>' +
+            (l.roman ? '<div class="r">' + esc(l.roman) + '（羅馬字，輔助）</div>' : '<div class="r">（來源沒有提供羅馬字）</div>') +
+            '<div class="z">' + esc(l.zh) + '</div><div class="meta">' + chips(l.s) + (l.cross ? ' ' + chips(l.cross, true) : '') + '</div></div>' +
+            (l.ko.indexOf('___') >= 0 ? '' : speakBtn(l.ko.replace(/\s*\/\s*.*$/, ''))) + '</div>';
+        }).join('') + '</div>' + (s.single_source ? '<p class="small-note" style="margin-top:10px">⚠ 單一來源：這一組只有 S9 收錄。</p>' : ''); break;
+      case 'scenario':
+        body = '<div id="scnBox"></div>'; break;
+      case 'quiz':
+        body = '<div id="chQuiz"></div>'; break;
+      default: body = '<p>（未知的投影片類型）</p>';
+    }
+    var note = s.note ? '<div class="note">' + esc(s.note) + '</div>' : '';
+    box.innerHTML = head + body + note + footHtml(s);
+    box.classList.remove('slide'); void box.offsetWidth; box.classList.add('slide');
+
+    if (s.type === 'cards' || s.type === 'vocab') mountDeck($('#deckBox', box), s.deck);
+    if (s.type === 'combiner') mountCombiner($('#combBox', box));
+    if (s.type === 'practice') mountPractice($('#pracBox', box));
+    if (s.type === 'scenario') {
+      var c = $('#scnBox', box);
+      D.quiz.practice.dialogue.forEach(function (q) { c.appendChild(buildQuestion(q, { practice: true })); });
+    }
+    if (s.type === 'quiz') {
+      var cq = $('#chQuiz', box);
+      var list = D.quiz.questions.filter(function (q) { return q.chapter === s.quiz_chapter; });
+      var banner = document.createElement('p');
+      banner.className = 'small-note';
+      cq.appendChild(banner);
+      var refresh = function () {
+        var a = list.filter(function (q) { return progress.answers[q.id]; }).length;
+        var ok = list.filter(function (q) { return progress.answers[q.id] && progress.answers[q.id].ok; }).length;
+        banner.textContent = '本章 ' + list.length + ' 題：已作答 ' + a + ' 題，答對 ' + ok + ' 題。成績會計入「小測驗」總分。';
+      };
+      refresh();
+      list.forEach(function (q) { cq.appendChild(buildQuestion(q, { onAnswer: function () { refresh(); updatePill(); } })); });
+    }
+  }
+
+  /* ------------------------------------------------------------------ 卡片（子音、母音、單字） */
+  function mountDeck(box, kind) {
+    var all = D.slides.decks[kind];
+    var groups = {
+      consonants: [['all', '全部 19'], ['basic', '基本子音 14'], ['tense', '緊音 5']],
+      vowels: [['all', '全部 21'], ['basic', '基本母音 10'], ['compound', '複合母音 11']],
+      vocab: [['all', '全部 20'], ['飲食', '飲食'], ['人物', '人物'], ['地點', '地點'], ['物品與時間', '物品與時間']]
+    }[kind];
+    var st = { g: 'all', i: 0, flipped: false };
+    function list() { return all.filter(function (c) { return st.g === 'all' || (kind === 'vocab' ? c.cat === st.g : c.group === st.g); }); }
+    function draw() {
+      var L = list();
+      if (st.i >= L.length) st.i = 0;
+      var c = L[st.i];
+      var front = '<span class="glyph ko' + (kind === 'vocab' ? ' word' : '') + '">' + esc(c.ko) + '</span><span class="tapnote">點擊翻面</span>';
+      var back;
+      if (kind === 'vocab') {
+        back = '<div class="zh">' + esc(c.zh) + '</div><div class="rom">' + esc(c.roman) + '</div>' +
+          '<div class="small">' + esc(c.en) + '・名詞（명사）</div>' + (c.note ? '<div class="small">' + esc(c.note) + '</div>' : '') +
+          '<div class="tiny">羅馬字為依字母表推導，詞典頁面沒有提供・' + c.src.join(' ') + '</div>';
+      } else {
+        back = '<div class="rom">' + esc(c.roman) + '</div><div class="small">' + esc(c.note) + '</div>' +
+          '<div class="tiny">羅馬字是輔助，不是英文發音・' + c.src.join(' ') + '</div>';
+      }
+      box.innerHTML = '<div class="tabs" role="group" aria-label="分類">' + groups.map(function (g) {
+        return '<button type="button" data-g="' + esc(g[0]) + '" aria-pressed="' + (st.g === g[0]) + '">' + esc(g[1]) + '</button>';
+      }).join('') + '</div>' +
+        '<button type="button" class="flip' + (st.flipped ? ' flipped' : '') + '" id="flipBtn" aria-label="翻面：' + esc(c.ko) + '" aria-pressed="' + st.flipped + '">' +
+        '<span class="flip-in"><span class="face front">' + front + '</span><span class="face back">' + back + '</span></span></button>' +
+        '<div class="deck-ctrl"><button class="btn small" type="button" id="dPrev">← 上一張</button><span>' + (st.i + 1) + ' / ' + L.length + '</span>' +
+        '<button class="btn small" type="button" id="dNext">下一張 →</button>' + speakBtn(c.ko) + '</div>' +
+        '<div class="mini-grid">' + L.map(function (x, k) { return '<button type="button" class="ko" data-k="' + k + '"' + (k === st.i ? ' aria-current="true"' : '') + ' aria-label="' + esc(x.ko) + '">' + esc(x.ko) + '</button>'; }).join('') + '</div>';
+      $$('[data-g]', box).forEach(function (b) { b.onclick = function () { st.g = b.getAttribute('data-g'); st.i = 0; st.flipped = false; draw(); }; });
+      $('#flipBtn', box).onclick = function () { st.flipped = !st.flipped; var f = $('#flipBtn', box); f.classList.toggle('flipped', st.flipped); f.setAttribute('aria-pressed', st.flipped); };
+      $('#dPrev', box).onclick = function () { st.i = (st.i - 1 + L.length) % L.length; st.flipped = false; draw(); };
+      $('#dNext', box).onclick = function () { st.i = (st.i + 1) % L.length; st.flipped = false; draw(); };
+      $$('[data-k]', box).forEach(function (b) { b.onclick = function () { st.i = +b.getAttribute('data-k'); st.flipped = false; draw(); }; });
+    }
+    draw();
+  }
+
+  /* ------------------------------------------------------------------ 字母組合器 */
+  function mountCombiner(box) {
+    var DEF = { l: 18, v: 0, t: 4 };          // ㅎ ㅏ ㄴ = 한（Wiki 第 1 章示例）
+    var st = { l: DEF.l, v: DEF.v, t: DEF.t };
+    function pickRow(label, arr, key, withNone) {
+      return '<div class="pick-row"><div class="lab">' + label + '</div><div class="grid" role="group" aria-label="' + label + '">' +
+        (withNone ? '<button type="button" class="none" data-key="t" data-i="0" aria-pressed="' + (st.t === 0) + '">無終聲</button>' : '') +
+        arr.map(function (j, i) {
+          if (withNone && i === 0) return '';
+          return '<button type="button" class="ko" data-key="' + key + '" data-i="' + i + '" aria-pressed="' + (st[key] === i) + '">' + esc(j) + '</button>';
+        }).join('') + '</div></div>';
+    }
+    function draw() {
+      var ready = st.l !== null && st.v !== null;
+      var out;
+      if (ready) {
+        var ch = H.compose(st.l, st.v, st.t);
+        var lj = H.CHOSEONG[st.l], vj = H.JUNGSEONG[st.v], tj = H.JONGSEONG[st.t];
+        var code = ch.charCodeAt(0);
+        var hint = H.finalHint(tj);
+        var extra = (lj === 'ㅇ') ? '初聲的 ㅇ 不發音，只是佔位（S1）。 ' : '';
+        out = '<div class="res ko" id="combRes" aria-live="polite">' + esc(ch) + '</div><div><div class="formula ko">' + esc(lj) + ' ＋ ' + esc(vj) + (tj ? ' ＋ ' + esc(tj) : '') + ' ＝ <b>' + esc(ch) + '</b></div>' +
+          '<div class="code">Unicode U+' + code.toString(16).toUpperCase() + ' ＝ 0xAC00 ＋ (' + st.l + '×21 ＋ ' + st.v + ')×28 ＋ ' + st.t + '</div>' +
+          '<div class="hintbox">' + esc(extra) + '收音提示：' + esc(hint.text) + (hint.src ? '（' + hint.src + '）' : '') + '</div></div>' + speakBtn(ch);
+      } else {
+        out = '<div class="res ko" id="combRes">？</div><div><div class="formula">請至少選擇一個初聲與一個中聲。</div><div class="code">終聲可以不選。</div></div>';
+      }
+      box.innerHTML = '<div class="comb"><div class="comb-out">' + out + '</div>' +
+        pickRow('初聲（19）', H.CHOSEONG, 'l', false) + pickRow('中聲（21）', H.JUNGSEONG, 'v', false) + pickRow('終聲（可選，27 個＋無）', H.JONGSEONG, 't', true) +
+        '<div class="comb-actions"><button class="btn small" type="button" id="cClear">清除</button><button class="btn small primary" type="button" id="cReset">重新組合（回到 한）</button></div></div>';
+      $$('[data-key]', box).forEach(function (b) {
+        b.onclick = function () { st[b.getAttribute('data-key')] = +b.getAttribute('data-i'); draw(); };
+      });
+      $('#cClear', box).onclick = function () { st.l = null; st.v = null; st.t = 0; draw(); };
+      $('#cReset', box).onclick = function () { st.l = DEF.l; st.v = DEF.v; st.t = DEF.t; draw(); };
+    }
+    draw();
+  }
+
+  /* ------------------------------------------------------------------ 拼音組合練習 */
+  function mountPractice(box) {
+    var T = D.slides.practice_targets;
+    var st = { i: 0, score: 0, answered: false };
+    function opts(arr, withNone) {
+      return '<option value="">' + (withNone ? '（無終聲）' : '選擇') + '</option>' + arr.map(function (j, i) { return (withNone && i === 0) ? '' : '<option value="' + i + '">' + esc(j) + '</option>'; }).join('');
+    }
+    function draw() {
+      var t = T[st.i];
+      box.innerHTML = '<div class="practice"><div class="target"><span class="t ko">' + esc(t.target) + '</span>' + speakBtn(t.target) + '<span>' + esc(t.hint) + '</span></div>' +
+        '<div class="sels"><label>初聲 <select id="pl" class="ko">' + opts(H.CHOSEONG) + '</select></label>' +
+        '<label>中聲 <select id="pv" class="ko">' + opts(H.JUNGSEONG) + '</select></label>' +
+        '<label>終聲 <select id="pt" class="ko">' + opts(H.JONGSEONG, true) + '</select></label></div>' +
+        '<div class="comb-actions"><button class="btn small primary" type="button" id="pCheck">檢查</button><button class="btn small" type="button" id="pNext"' + (st.i === T.length - 1 ? ' disabled' : '') + '>下一題</button>' +
+        '<span class="small-note">第 ' + (st.i + 1) + ' / ' + T.length + ' 題・答對 ' + st.score + ' 題</span></div><div id="pFb" aria-live="polite"></div></div>';
+      $('#pCheck', box).onclick = function () {
+        var l = $('#pl', box).value, v = $('#pv', box).value, tt = $('#pt', box).value;
+        var fb = $('#pFb', box);
+        if (l === '' || v === '') { fb.innerHTML = '<div class="feedback bad">請先選好初聲與中聲。</div>'; return; }
+        var made = H.compose(+l, +v, tt === '' ? 0 : +tt);
+        var d = H.decompose(t.target);
+        var ans = d.lJamo + ' ＋ ' + d.vJamo + (d.tJamo ? ' ＋ ' + d.tJamo : '') + ' ＝ ' + t.target;
+        if (made === t.target) {
+          if (!st.answered) { st.score++; st.answered = true; }
+          fb.innerHTML = '<div class="feedback ok">✔ 正確！' + esc(ans) + '</div>';
+        } else {
+          st.answered = true;
+          fb.innerHTML = '<div class="feedback bad">✘ 你拼出的是「' + esc(made) + '」。正確答案：' + esc(ans) + '</div>';
+        }
+      };
+      $('#pNext', box).onclick = function () { st.i++; st.answered = false; draw(); };
+    }
+    draw();
+  }
+
+  /* ------------------------------------------------------------------ 測驗引擎 */
+  function buildQuestion(q, opt) {
+    opt = opt || {};
+    var wrap = document.createElement('div');
+    wrap.className = 'q';
+    var rec = opt.practice ? null : progress.answers[q.id];
+    var isMatch = q.kind === 'match';
+    var kindLabel = { concept: '概念', letter: '字母', spelling: '拼音', vocab: '單字', dialogue: '會話', match: '配對' }[q.kind] || '';
+    var head = '<div class="qh"><span>' + (opt.practice ? '練習' : esc(q.id.toUpperCase())) + (kindLabel ? '・' + kindLabel : '') + '</span><span>' + (q.chapter ? '第 ' + q.chapter + ' 章' : '') + '</span></div>';
+    var scene = q.scene ? '<p class="small-note">情境：' + esc(q.scene) + '</p>' : '';
+    var form = '';
+    if (isMatch) {
+      form = q.pairs.map(function (p, i) {
+        return '<div class="match-row"><span class="ko">' + esc(p.ko) + '</span><select data-m="' + i + '" aria-label="' + esc(p.ko) + ' 的意思"><option value="">選擇意思</option>' +
+          q.options.map(function (o) { return '<option>' + esc(o) + '</option>'; }).join('') + '</select></div>';
+      }).join('') + '<button class="btn small primary" type="button" data-check>檢查答案</button>';
+    } else {
+      form = '<div class="choices">' + q.choices.map(function (c, i) { return '<button type="button" class="ko" data-c="' + i + '">' + esc(c) + '</button>'; }).join('') + '</div>';
+    }
+    wrap.innerHTML = head + scene + '<div class="qp">' + esc(q.prompt) + '</div>' + form + '<div data-res></div>';
+
+    function answerText() {
+      return isMatch ? q.pairs.map(function (p) { return p.ko + '＝' + p.zh; }).join('；') : q.choices[q.answer];
+    }
+    function showResult(ok) {
+      var traceId = (q.chapter ? '第 ' + q.chapter + ' 章' : '第 6 章');
+      $('[data-res]', wrap).innerHTML = '<div class="result ' + (ok ? 'ok' : 'bad') + '"><b>' + (ok ? '✔ 正確' : '✘ 錯誤') + '</b>　正確答案：' + esc(answerText()) +
+        '<div>' + esc(q.explain) + '</div><div class="trace">對應 Wiki：wiki/' + esc(q.wiki) + '（' + traceId + '）・來源 ' + esc(q.sources.join('、')) + '</div></div>';
+    }
+    function lock() { $$('button,select', wrap).forEach(function (b) { b.disabled = true; }); }
+    function record(ok, pick) {
+      if (opt.practice) return;
+      progress.answers[q.id] = { ok: ok, pick: pick };
+      saveProgress();
+      updatePill();
+      if (opt.onAnswer) opt.onAnswer(ok);
+    }
+    if (!isMatch) {
+      $$('[data-c]', wrap).forEach(function (b) {
+        b.onclick = function () {
+          var i = +b.getAttribute('data-c');
+          var ok = i === q.answer;
+          b.classList.add(ok ? 'correct' : 'wrong');
+          var right = $('[data-c="' + q.answer + '"]', wrap); if (right) right.classList.add('correct');
+          lock(); showResult(ok); record(ok, i);
+        };
+      });
+    } else {
+      $('[data-check]', wrap).onclick = function () {
+        var sels = $$('[data-m]', wrap);
+        if (sels.some(function (s) { return !s.value; })) { toast('請先為每一句選好意思。'); return; }
+        var ok = sels.every(function (s, i) { return s.value === q.pairs[i].zh; });
+        sels.forEach(function (s, i) { s.style.borderColor = s.value === q.pairs[i].zh ? 'var(--ok)' : 'var(--bad)'; });
+        lock(); showResult(ok); record(ok, sels.map(function (s) { return s.value; }));
+      };
+    }
+    if (rec) {  // 已作答：還原畫面
+      if (!isMatch) {
+        var pb = $('[data-c="' + rec.pick + '"]', wrap); if (pb) pb.classList.add(rec.ok ? 'correct' : 'wrong');
+        var rb = $('[data-c="' + q.answer + '"]', wrap); if (rb) rb.classList.add('correct');
+      } else if (rec.pick) {
+        $$('[data-m]', wrap).forEach(function (s, i) { s.value = rec.pick[i]; s.style.borderColor = rec.pick[i] === q.pairs[i].zh ? 'var(--ok)' : 'var(--bad)'; });
+      }
+      lock(); showResult(rec.ok);
+    }
+    return wrap;
+  }
+
+  function renderQuizView() {
+    app.innerHTML = '<div class="view"><div class="container"><div class="section-title"><h2>韓文小測驗</h2><small>' + D.quiz.questions.length + ' 題・題目與答案皆來自 Wiki</small></div>' +
+      '<div class="stat" id="qSummary" style="margin-bottom:20px"></div><div id="qList"></div></div></div>';
+    var list = $('#qList');
+    function refresh() {
+      var sc = scoreInfo();
+      var per = D.slides.chapters.map(function (c) {
+        var qs = D.quiz.questions.filter(function (q) { return q.chapter === c.id; });
+        var ok = qs.filter(function (q) { return progress.answers[q.id] && progress.answers[q.id].ok; }).length;
+        var a = qs.filter(function (q) { return progress.answers[q.id]; }).length;
+        return '<span class="chip">第 ' + c.id + ' 章 ' + ok + '/' + qs.length + (a < qs.length ? '（已答 ' + a + '）' : '') + '</span>';
+      }).join(' ');
+      $('#qSummary').innerHTML = '<div class="num">' + sc.correct + ' / ' + sc.total + '</div><div class="lab">答對題數・已作答 ' + sc.answered + ' 題' + (sc.answered === sc.total ? '（全部完成）' : '') + '</div>' +
+        '<div class="bar"><span style="width:' + Math.round(sc.answered / sc.total * 100) + '%"></span></div><div class="sm" style="margin-top:10px">' + per + '</div>' +
+        '<div style="margin-top:12px"><button class="btn small" type="button" id="qReset">重新作答（清除測驗成績）</button></div>';
+      $('#qReset').onclick = function () {
+        progress.answers = {}; saveProgress(); updatePill();
+        list.innerHTML = ''; build(); refresh();
+      };
+    }
+    function build() {
+      D.quiz.questions.forEach(function (q) { list.appendChild(buildQuestion(q, { onAnswer: refresh })); });
+    }
+    build(); refresh();
+  }
+
+  /* ------------------------------------------------------------------ Knowledge & Workflow */
+  function badge(status, label) { return '<span class="badge ' + esc(status) + '">' + esc(label || status) + '</span>'; }
+  var STATUS_ZH = { success: '成功', partial: '部分', failed: '失敗', pending: '待處理', done: '已完成', not_started: '未開始', reserved: '保留給下一階段', passed: '通過', not_run: '未執行', fixed: '已修正' };
+
+  function graphSvg(W) {
+    var pos = {};
+    var xs1 = [100, 300, 500, 700, 900], y1 = 90, y2 = 270;
+    W.nodes.forEach(function (n, i) {
+      if (i < 5) pos[n.no] = { x: xs1[i], y: y1 };
+      else pos[n.no] = { x: xs1[9 - i], y: y2 };
+    });
+    var fill = { done: '#D9D0F0', partial: '#F6F1E4', reserved: '#FFFFFF', not_started: '#FFFFFF' };
+    var svg = '<svg class="flow-svg" viewBox="0 0 1000 380" role="img" aria-label="Loop / Graph 工作流程圖：十個節點與失敗返回路徑">' +
+      '<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#555"/></marker>' +
+      '<marker id="arrL" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7a6aa8"/></marker></defs>';
+    // 主流程箭頭
+    for (var i = 0; i < 9; i++) {
+      var a = pos[W.nodes[i].no], b = pos[W.nodes[i + 1].no];
+      if (i < 4) svg += '<line x1="' + (a.x + 75) + '" y1="' + a.y + '" x2="' + (b.x - 77) + '" y2="' + b.y + '" stroke="#555" stroke-width="1.6" marker-end="url(#arr)"/>';
+      else if (i === 4) svg += '<line x1="' + a.x + '" y1="' + (a.y + 30) + '" x2="' + b.x + '" y2="' + (b.y - 32) + '" stroke="#555" stroke-width="1.6" marker-end="url(#arr)"/>';
+      else svg += '<line x1="' + (a.x - 75) + '" y1="' + a.y + '" x2="' + (b.x + 77) + '" y2="' + b.y + '" stroke="#555" stroke-width="1.6" marker-end="url(#arr)"/>';
+    }
+    // 失敗返回路徑
+    var loopPaths = {
+      '③→②': { d: 'M 500,60 C 500,8 300,8 300,60', lx: 400, ly: 16 },
+      '⑦→④': { d: 'M 690,238 L 690,120', lx: 640, ly: 180, anchor: 'end' },
+      '⑦→⑥': { d: 'M 720,302 C 720,352 880,352 880,302', lx: 800, ly: 366 },
+      '⑨→⑧': { d: 'M 320,302 C 320,352 480,352 480,302', lx: 400, ly: 366 },
+      '⑩→⑨': { d: 'M 120,302 C 120,352 280,352 280,302', lx: 200, ly: 366 }
+    };
+    W.loops.forEach(function (lp) {
+      var p = loopPaths[lp.from + '→' + lp.to];
+      if (!p) return;
+      svg += '<path d="' + p.d + '" fill="none" stroke="#7a6aa8" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrL)"/>' +
+        '<text x="' + p.lx + '" y="' + p.ly + '" font-size="12" fill="#7a6aa8" text-anchor="' + (p.anchor || 'middle') + '">' + esc(lp.label) + '</text>';
+    });
+    // 節點
+    W.nodes.forEach(function (n) {
+      var p = pos[n.no];
+      var dash = (n.status === 'partial' || n.status === 'reserved' || n.status === 'not_started') ? ' stroke-dasharray="5 4"' : '';
+      svg += '<g><rect x="' + (p.x - 75) + '" y="' + (p.y - 30) + '" width="150" height="60" rx="14" fill="' + (fill[n.status] || '#fff') + '" stroke="#888" stroke-width="1.2"' + dash + '/>' +
+        '<text x="' + p.x + '" y="' + (p.y - 4) + '" font-size="15" font-weight="600" text-anchor="middle" fill="#333">' + esc(n.no + ' ' + n.short) + '</text>' +
+        '<text x="' + p.x + '" y="' + (p.y + 18) + '" font-size="11" text-anchor="middle" fill="#666">' + esc(STATUS_ZH[n.status] || n.status) + (n.check ? '・✓檢查' : '') + (n.repeat ? '・↻' : '') + '</text></g>';
+    });
+    return svg + '</svg>';
+  }
+
+  function renderKnowledge() {
+    var W = D.workflow, S = D.sources;
+    var cnt = { success: 0, partial: 0 };
+    S.sources.forEach(function (s) { cnt[s.status] = (cnt[s.status] || 0) + 1; });
+    var h = '<div class="view"><div class="container">' +
+      '<div class="section-title"><h2>Knowledge &amp; Workflow</h2><small>以下內容依專案的真實紀錄產生，沒有虛構</small></div>';
+
+    // 1. LLM Wiki
+    h += '<section class="kw-section"><h2>1. LLM Wiki 是什麼 <small>wiki/</small></h2>' +
+      '<p>LLM Wiki 是由 AI 協助整理、但每一項知識都要標示來源的結構化知識庫。本專案先把資料來源整理進 Wiki，再從 Wiki 取材製作簡報；AI 不可以用自己的記憶補寫教學內容。</p>' +
+      '<div class="cols"><div><h3>六個章節</h3><p class="small-note">' + D.slides.chapters.map(function (c) { return esc(c.code.replace('Chapter ', 'Ch') + ' ' + c.title); }).join('・') + '</p></div>' +
+      '<div><h3>統一格式</h3><p class="small-note">學習目標、基本概念、詳細教學、初學者範例、常見錯誤、來源與引用、簡報摘要</p></div>' +
+      '<div><h3>標記規則</h3><p class="small-note"><b>[S#]</b> 來源 ID；<b>待補來源</b> 不得進入簡報；<b>推論</b> 查證前不使用；<b>教學設計</b> 為教學編排，不是事實。</p></div></div></section>';
+
+    // 2. 來源
+    h += '<section class="kw-section"><h2>2. 知識來源與擷取狀態 <small>sources/sources.json（第二階段紀錄）</small></h2>' +
+      '<p>共 ' + S.sources.length + ' 筆 ingest：成功 ' + (cnt.success || 0) + '、部分 ' + (cnt.partial || 0) + '。所有擷取皆為 WebFetch 的<b>工具摘要</b>，不是逐字原文；<b>人工核對狀態：全部尚未完成</b>，簡報不宣稱已人工驗證。</p>' +
+      '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>來源</th><th>標題</th><th>擷取</th><th>人工核對</th><th>對應章節</th></tr></thead><tbody>' +
+      S.sources.map(function (s) {
+        return '<tr><td>' + esc(s.source_id) + '<br><span class="small-note">' + esc(s.ingest_id) + '</span></td><td><a href="' + esc(s.url.indexOf('<') >= 0 ? 'https://krdict.korean.go.kr/eng/mainAction' : s.url) + '" target="_blank" rel="noopener">' + esc(s.title) + '</a>' +
+          '<details><summary class="small-note">取得範圍與限制</summary><p class="small-note">取得範圍：' + esc(s.content_range) + '<br>限制：' + esc(s.usage_restrictions) + '<br>查證備註：' + esc(s.verification.note) + '</p></details></td>' +
+          '<td>' + badge(s.status, STATUS_ZH[s.status] || s.status) + '</td><td>' + badge(s.verification.human_check === 'required' ? 'failed' : 'pending', s.verification.human_check === 'required' ? '需人工核對' : '待核對') + '</td><td>' + esc(s.wiki_chapters.join('、')) + '</td></tr>';
+      }).join('') + '</tbody></table></div>' +
+      '<h3>失敗與待處理</h3><ul>' + S.failed_or_pending.map(function (f) { return '<li><b>' + esc(f.id) + '</b> ' + esc(f.target) + ' — ' + badge(f.status === 'failed' ? 'failed' : 'pending', f.status) + ' ' + esc(f.reason) + '（處理：' + esc(f.resolution) + '）</li>'; }).join('') + '</ul>' +
+      '<h3>被排除的候選來源</h3><ul>' + S.rejected_candidates.map(function (r) { return '<li class="small-note">' + esc(r.url) + ' — ' + esc(r.reason) + '</li>'; }).join('') + '</ul></section>';
+
+    // 3. Wiki → 簡報
+    h += '<section class="kw-section"><h2>3. Wiki 如何產生教學簡報 <small>節點 ⑤⑥⑦⑧</small></h2><ol class="steps">' +
+      '<li><span><b>⑤ 查詢 Wiki：</b>逐章讀取可用內容，記錄用了什麼、排除了什麼（共 ' + W.wiki_queries.length + ' 筆查詢）。</span></li>' +
+      '<li><span><b>⑥ 整理教學摘要：</b>寫入 <code>data/slides.json</code> 與 <code>data/quiz.json</code>；每張投影片與每題都記錄 Wiki 檔案、來源 ID，以及必須能在 Wiki 找到的 evidence 字串。</span></li>' +
+      '<li><span><b>⑦ 內容驗證：</b><code>scripts/validate.py</code> 逐項檢查可追溯性、單字一致、是否誤用待補來源、測驗答案；失敗就退回修正。</span></li>' +
+      '<li><span><b>⑧ 生成 HTML：</b>頁面只讀取驗證過的 JSON，不在程式裡另外寫教學文字。</span></li></ol>' +
+      '<h3>⑤ Wiki 查詢紀錄</h3><div class="tbl-wrap"><table class="tbl"><thead><tr><th>#</th><th>查詢</th><th>使用</th><th>排除</th></tr></thead><tbody>' +
+      W.wiki_queries.map(function (q) { return '<tr><td>' + esc(q.id) + '</td><td>' + esc(q.query) + '</td><td>' + esc(q.used) + '</td><td>' + esc(q.excluded) + '</td></tr>'; }).join('') + '</tbody></table></div></section>';
+
+    // 4. Graph
+    h += '<section class="kw-section"><h2>4. Loop / Graph 工作流程 <small>workflow/graph.md</small></h2>' + graphSvg(W) +
+      '<div class="legend"><span><i style="background:#D9D0F0"></i>已完成</span><span><i style="background:#F6F1E4;border:1px dashed #888"></i>部分完成</span><span><i style="background:#fff;border:1px dashed #888"></i>未開始／保留</span><span>✓檢查節點</span><span>↻ 會重複執行</span><span style="color:#7a6aa8">┄ 虛線＝失敗返回</span></div>' +
+      '<h3>節點職責</h3><div class="tbl-wrap"><table class="tbl"><thead><tr><th>節點</th><th>輸入</th><th>處理</th><th>輸出</th><th>檢查</th><th>失敗返回</th><th>狀態</th></tr></thead><tbody>' +
+      W.nodes.map(function (n) { return '<tr><td>' + esc(n.no + ' ' + n.name) + '</td><td>' + esc(n.input) + '</td><td>' + esc(n.process) + '</td><td>' + esc(n.output) + '</td><td>' + (n.check ? '✓' : '—') + '</td><td>' + esc(n.fail_return || '—') + '</td><td>' + badge(n.status, STATUS_ZH[n.status]) + (n.note ? '<br><span class="small-note">' + esc(n.note) + '</span>' : '') + '</td></tr>'; }).join('') + '</tbody></table></div>' +
+      '<div class="cols"><div><h3>會反覆執行的節點</h3><ul>' + W.nodes.filter(function (n) { return n.repeat; }).map(function (n) { return '<li>' + esc(n.no + ' ' + n.name) + '</li>'; }).join('') + '</ul></div>' +
+      '<div><h3>進行內容驗證的節點</h3><ul>' + W.nodes.filter(function (n) { return n.check; }).map(function (n) { return '<li>' + esc(n.no + ' ' + n.name) + '</li>'; }).join('') + '</ul></div></div>' +
+      '<h3>失敗返回路徑</h3><ul>' + W.loops.map(function (l) { return '<li><b>' + esc(l.from + ' → ' + l.to) + '</b>：' + esc(l.when) + '</li>'; }).join('') + '</ul></section>';
+
+    // 5. 驗證
+    h += '<section class="kw-section"><h2>5. 內容驗證結果 <small>scripts/validate.py（實際執行）</small></h2><div class="timeline-log">' +
+      W.validation_runs.map(function (v) {
+        return '<div class="log-item"><span class="id">' + esc(v.id) + '</span><span><b>' + esc(v.title) + '</b>　' + badge(v.fail === 0 ? 'success' : 'failed', 'PASS ' + v.pass + '・FAIL ' + v.fail + (v.warn ? '・WARN ' + v.warn : '')) +
+          '<br><span class="small-note">' + esc(v.note) + '</span>' + (v.issues && v.issues.length ? '<ul>' + v.issues.map(function (i) { return '<li class="small-note">' + esc(i) + '</li>'; }).join('') + '</ul>' : '') + '</span></div>';
+      }).join('') + '</div><p class="small-note">驗證腳本只檢查格式、對應與可追溯性，無法證明內容本身正確。</p></section>';
+
+    // 6. 測試
+    h += '<section class="kw-section"><h2>6. 功能測試結果 <small>workflow/test-report.md</small></h2><div class="tbl-wrap"><table class="tbl"><thead><tr><th>#</th><th>測試項目</th><th>方式</th><th>結果</th></tr></thead><tbody>' +
+      W.tests.map(function (t) { return '<tr><td>' + esc(t.id) + '</td><td>' + esc(t.name) + '</td><td>' + esc(t.method) + '</td><td>' + badge(t.status === 'passed' ? 'success' : (t.status === 'failed' ? 'failed' : 'pending'), STATUS_ZH[t.status] || t.status) + '<br><span class="small-note">' + esc(t.result) + '</span></td></tr>'; }).join('') + '</tbody></table></div></section>';
+
+    // 7. 記錄
+    h += '<section class="kw-section"><h2>7. 執行與修正紀錄 <small>logs/run-20261123.md</small></h2><div class="timeline-log">' +
+      W.log.map(function (l) { return '<div class="log-item"><span class="id">' + esc(l.phase) + '<br>' + esc(l.no) + '</span><span><b>' + esc(l.step) + '</b>　' + badge(l.result === '成功' ? 'success' : (l.result === '失敗' ? 'failed' : 'partial'), l.result) + '<br><span class="small-note">' + esc(l.note) + '</span></span></div>'; }).join('') + '</div></section>';
+
+    // 8. 排除
+    h += '<section class="kw-section"><h2>8. 未納入簡報的內容 <small>待補來源・推論・未核對</small></h2><ul>' +
+      W.excluded.map(function (x) { return '<li><b>' + esc(x.item) + '</b>：' + esc(x.reason) + '</li>'; }).join('') + '</ul></section>';
+
+    h += '</div></div>';
+    app.innerHTML = h;
+  }
+
+  /* ------------------------------------------------------------------ 啟動 */
+  function init() {
+    document.getElementById('brandBtn').onclick = function () { go('home'); };
+    $$('.nav button').forEach(function (b) { b.onclick = function () { go(b.getAttribute('data-nav')); }; });
+    Promise.all([getJSON('data/slides.json'), getJSON('data/quiz.json'), getJSON('sources/sources.json'), getJSON('data/workflow.json')])
+      .then(function (r) {
+        D = { slides: r[0], quiz: r[1], sources: r[2], workflow: r[3] };
+        D.sources.sources.forEach(function (s) { SRC[s.source_id] = s; });
+        D.slides.chapters.forEach(function (c) { CH[c.id] = c; });
+        SLIDES = D.slides.slides;
+        window.addEventListener('hashchange', route);
+        route();
+      })
+      .catch(showLoadError);
+  }
+  init();
+})();
+
+</script>
+</body>
+</html>

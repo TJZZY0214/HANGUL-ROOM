@@ -1,0 +1,140 @@
+{
+  "run_at": "2026-11-23 17:33:47",
+  "browser": "Chromium（Playwright，headless）",
+  "passed": 22,
+  "failed": 0,
+  "results": [
+    {
+      "id": "T01",
+      "name": "首頁內容與無錯誤載入",
+      "status": "passed",
+      "detail": "6 張章節卡、標語、副標題、進度區皆存在"
+    },
+    {
+      "id": "T02",
+      "name": "投影片：上一頁、下一頁、進度條、章節目錄",
+      "status": "passed",
+      "detail": "共 43 張；上一頁／下一頁／進度條／章節目錄皆可用"
+    },
+    {
+      "id": "T03",
+      "name": "鍵盤左右方向鍵切換",
+      "status": "passed",
+      "detail": "← → 方向鍵切換正常"
+    },
+    {
+      "id": "T04",
+      "name": "所有投影片逐張載入與章節完成進度",
+      "status": "passed",
+      "detail": "43 張投影片逐張載入、顯示 Wiki 與來源；首頁顯示完成章節 6/6"
+    },
+    {
+      "id": "T05",
+      "name": "子音卡片：翻面、切換、分類",
+      "status": "passed",
+      "detail": "19 張（基本 14／緊音 5）；翻面、上一張／下一張、分類、背面羅馬字"
+    },
+    {
+      "id": "T06",
+      "name": "母音卡片：翻面、切換、分類",
+      "status": "passed",
+      "detail": "21 張（基本 10／複合 11）"
+    },
+    {
+      "id": "T07",
+      "name": "字母組合器：Unicode 組合、清除、重新組合",
+      "status": "passed",
+      "detail": "8 組點選結果與 unicodedata 一致；11172 個音節全數一致；U+D55C；清除／重新組合；ㅎ 收音不給讀法"
+    },
+    {
+      "id": "T08",
+      "name": "拼音組合練習",
+      "status": "passed",
+      "detail": "正確／錯誤回饋、顯示正確拆解、選單內方向鍵不換頁"
+    },
+    {
+      "id": "T09",
+      "name": "單字翻牌（20 個）",
+      "status": "passed",
+      "detail": "20 張單字逐張翻面，中文與羅馬字皆與資料一致；四個分類數量 6／5／4／5"
+    },
+    {
+      "id": "T10",
+      "name": "小測驗：作答、回饋、計分、重新作答",
+      "status": "passed",
+      "detail": "15 題；答錯顯示『錯誤、正確答案、解釋、Wiki 章節與來源』；全部答對顯示 15/15"
+    },
+    {
+      "id": "T11",
+      "name": "學習進度：localStorage 保存與還原",
+      "status": "passed",
+      "detail": "章節小測成績計入總分；重新整理後進度與位置保留（localStorage）"
+    },
+    {
+      "id": "T12",
+      "name": "儲存降級：localStorage 不可用",
+      "status": "passed",
+      "detail": "localStorage 拋出 SecurityError 時，網站仍可作答；進度改存記憶體並提示"
+    },
+    {
+      "id": "T13",
+      "name": "語音降級：瀏覽器不支援 Web Speech API",
+      "status": "passed",
+      "detail": "不支援 Web Speech API 時顯示提示，翻牌與組合器仍正常，無 JS 錯誤"
+    },
+    {
+      "id": "T14",
+      "name": "語音降級：沒有韓文（ko）語音",
+      "status": "passed",
+      "detail": "有語音引擎但沒有韓文語音時，顯示提示且不播放"
+    },
+    {
+      "id": "T15",
+      "name": "語音：ko-KR 呼叫正確",
+      "status": "passed",
+      "detail": "有 ko-KR 語音時，utterance.lang 為 ko-KR，且播放的文字正確（以替身物件驗證，非真實發音）"
+    },
+    {
+      "id": "T16",
+      "name": "手機版（390×844 模擬）版面與目錄",
+      "status": "passed",
+      "detail": "390px 寬：首頁、43 張投影片、測驗、Knowledge 頁皆無橫向溢出；目錄可收合；觸控目標 ≥ 40px"
+    },
+    {
+      "id": "T17",
+      "name": "手機觸控滑動切換",
+      "status": "passed",
+      "detail": "左滑下一頁、右滑上一頁、短距離不換頁（以合成 TouchEvent 驗證，非真實手指）"
+    },
+    {
+      "id": "T18",
+      "name": "Knowledge & Workflow 頁面",
+      "status": "passed",
+      "detail": "8 個區塊、來源表 11 列、流程圖 10 節點與 5 條返回路徑、人工核對狀態與排除項目"
+    },
+    {
+      "id": "T19",
+      "name": "以 file:// 直接開啟",
+      "status": "passed",
+      "detail": "file:// 開啟：fetch 被瀏覽器擋下，網站顯示友善錯誤與『python3 -m http.server』解法（非空白頁）"
+    },
+    {
+      "id": "T20",
+      "name": "子路徑部署模擬（相對路徑）",
+      "status": "passed",
+      "detail": "網站放在 /hangul-room/ 子路徑時，所有資料以相對路徑載入成功（模擬 GitHub Pages 專案頁面，非真實部署）"
+    },
+    {
+      "id": "T21",
+      "name": "畫面內容規則（待補、推論、S10、人工核對）",
+      "status": "passed",
+      "detail": "全部投影片與測驗文字中，沒有待補來源標記、S10 單獨句子，也沒有宣稱已人工驗證"
+    },
+    {
+      "id": "T22",
+      "name": "沒有外部資源依賴",
+      "status": "passed",
+      "detail": "共 8 個請求，全部來自本機站點，沒有 CDN／外部字型"
+    }
+  ]
+}

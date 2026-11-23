@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HANGUL ROOM — 韓文入門教室</title>
+  <meta name="description" content="Learn Korean, One Letter at a Time. 以 LLM Wiki 為知識來源的韓文入門教學簡報。">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23D9D0F0'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23333'%3E%E3%84%B1%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" id="brandBtn" aria-label="回到首頁"><b>HANGUL ROOM</b><span>韓文入門教室</span></button>
+    <nav class="nav" aria-label="主要導覽">
+      <button data-nav="home">首頁</button>
+      <button data-nav="slides">教學簡報</button>
+      <button data-nav="quiz">小測驗</button>
+      <button data-nav="knowledge">Knowledge &amp; Workflow</button>
+    </nav>
+    <span class="pill" id="topPill" aria-live="polite"></span>
+  </header>
+
+  <main id="app" tabindex="-1">
+    <div class="container"><p>載入中…</p></div>
+  </main>
+
+  <footer class="site">
+    HANGUL ROOM · Learn Korean, One Letter at a Time.<br>
+    內容來自專案 LLM Wiki，來源與查證狀態見 Knowledge &amp; Workflow。語音由瀏覽器合成，不保證為標準韓語發音。
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <noscript><div class="container"><p>此簡報需要啟用 JavaScript。</p></div></noscript>
+  <script src="js/hangul.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

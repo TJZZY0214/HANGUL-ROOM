@@ -1,0 +1,29 @@
+{
+  "note": "第二階段結束時的檔案雜湊。locked 檔案第三階段不得變動；append_only 檔案只能在原內容之後追加。",
+  "recorded_at": "2026-11-23 第三階段開始前",
+  "locked": {
+    "CLAUDE.md": "51c41dde3bfebd8f15ef14f5f02d0dd11e367baf36fd1d66248279c2ee6bb498",
+    "sources/sources.json": "9902188b47156e787930e71ac47c1827813f71300f3b59a84f2938268843a8f0",
+    "wiki/01-introduction.md": "5ed335aa4eff2b77d3f1288e8876b3de60454d94b91976c4a7b1be21d6680d89",
+    "wiki/02-consonants.md": "1e0c439fcd9ce74df76859541a8f91d7af2c55049406e546587c5744b00bcd0d",
+    "wiki/03-vowels.md": "8b87a8b77dbe3850bc6ab50c6cc90b1bf4f0f5c93a878abf6d26c6e6de5232ae",
+    "wiki/04-syllables.md": "91b8f6e7c3f17bf34caf58fde2558ca7a35e0facc33851d43dbb41d77e9bc503",
+    "wiki/05-vocabulary.md": "e936c861a703c438e7ecabb31d514608faae11689e2bc845867977567e32251b",
+    "wiki/06-conversation.md": "219e4c720b8c3f230f7c1494c4de40259c9b518c32f0adf954d5c03fd3059738",
+    "wiki/index.md": "3cceea2e1cd3b75fe525a3f81e11b3db961a389cef5122b2264284eb528a80e1"
+  },
+  "append_only": {
+    "logs/run-20261123.md": {
+      "bytes": 5407,
+      "sha256": "b1a06a31aaf1a1876389a19441544edb9faa7b075b238f332db822e9be4d88dd"
+    },
+    "workflow/test-report.md": {
+      "bytes": 2385,
+      "sha256": "f79bb2a4130210edfc7ab21813c562792dab02997403cdb35ff99d8d7f79ae44"
+    },
+    "workflow/graph.md": {
+      "bytes": 4930,
+      "sha256": "31aca5305b16cb4a5527e9abbb8a609deb32ebf6e4bf49fa1018decdd1b472b4"
+    }
+  }
+}

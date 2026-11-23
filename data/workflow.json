@@ -1,0 +1,540 @@
+{
+  "meta": {
+    "note": "第三階段實際執行紀錄；未執行項目標為『未執行』，不視為通過。",
+    "updated": "2026-11-23"
+  },
+  "nodes": [
+    {
+      "no": "①",
+      "name": "資料蒐集",
+      "short": "蒐集",
+      "input": "來源清單、搜尋關鍵字",
+      "process": "判斷來源用途、權威性、可存取性",
+      "output": "來源登記表",
+      "check": false,
+      "repeat": false,
+      "fail_return": "本節點重做",
+      "status": "done",
+      "note": ""
+    },
+    {
+      "no": "②",
+      "name": "資料擷取與 ingest",
+      "short": "ingest",
+      "input": "來源網址",
+      "process": "實際擷取，記錄狀態與取得範圍",
+      "output": "sources.json 的 ingest 紀錄",
+      "check": true,
+      "repeat": true,
+      "fail_return": "①",
+      "status": "done",
+      "note": ""
+    },
+    {
+      "no": "③",
+      "name": "內容檢查",
+      "short": "檢查",
+      "input": "ingest 紀錄",
+      "process": "檢查數字、術語與衝突",
+      "output": "檢查結果、待補清單",
+      "check": true,
+      "repeat": true,
+      "fail_return": "②",
+      "status": "done",
+      "note": ""
+    },
+    {
+      "no": "④",
+      "name": "建立 Wiki",
+      "short": "建 Wiki",
+      "input": "通過檢查的 ingest",
+      "process": "依統一模板寫章節並標註來源",
+      "output": "wiki/*.md",
+      "check": true,
+      "repeat": true,
+      "fail_return": "③",
+      "status": "done",
+      "note": ""
+    },
+    {
+      "no": "⑤",
+      "name": "查詢 Wiki",
+      "short": "查詢",
+      "input": "簡報需求",
+      "process": "只從 Wiki 取材，記錄使用與排除",
+      "output": "查詢紀錄",
+      "check": false,
+      "repeat": false,
+      "fail_return": "④",
+      "status": "done",
+      "note": ""
+    },
+    {
+      "no": "⑥",
+      "name": "整理教學摘要",
+      "short": "摘要",
+      "input": "查詢結果",
+      "process": "整理成投影片、卡片與測驗資料",
+      "output": "slides.json、quiz.json",
+      "check": false,
+      "repeat": true,
+      "fail_return": "⑤",
+      "status": "done",
+      "note": ""
+    },
+    {
+      "no": "⑦",
+      "name": "內容驗證",
+      "short": "驗證",
+      "input": "教學資料與 Wiki",
+      "process": "scripts/validate.py 逐項比對",
+      "output": "驗證報告",
+      "check": true,
+      "repeat": true,
+      "fail_return": "④／⑥",
+      "status": "done",
+      "note": ""
+    },
+    {
+      "no": "⑧",
+      "name": "生成 HTML",
+      "short": "生成",
+      "input": "通過驗證的資料",
+      "process": "生成頁面與互動",
+      "output": "index.html、css、js",
+      "check": false,
+      "repeat": true,
+      "fail_return": "⑥",
+      "status": "done",
+      "note": "生成過程中，驗證與測試各促成 1 次返回修正（見紀錄）"
+    },
+    {
+      "no": "⑨",
+      "name": "功能測試",
+      "short": "測試",
+      "input": "網頁",
+      "process": "實際瀏覽器測試",
+      "output": "test-report.md",
+      "check": true,
+      "repeat": true,
+      "fail_return": "⑧",
+      "status": "partial",
+      "note": "Chromium 自動化測試 22/22 通過；Firefox、Safari、真機、真實韓文語音、人工核對來源未執行"
+    },
+    {
+      "no": "⑩",
+      "name": "部署",
+      "short": "部署",
+      "input": "通過測試的版本",
+      "process": "推送並確認 GitHub Pages",
+      "output": "公開網址",
+      "check": true,
+      "repeat": false,
+      "fail_return": "⑨",
+      "status": "reserved",
+      "note": "保留給下一階段"
+    }
+  ],
+  "loops": [
+    {
+      "from": "③",
+      "to": "②",
+      "label": "資料不符／擷取失敗",
+      "when": "檢查發現數字不符、來源衝突、擷取失敗或被限流"
+    },
+    {
+      "from": "⑦",
+      "to": "④",
+      "label": "Wiki 資料不足",
+      "when": "驗證發現句子無來源，或 Wiki 資料不足"
+    },
+    {
+      "from": "⑦",
+      "to": "⑥",
+      "label": "措辭不一致",
+      "when": "摘要措辭與 Wiki 不一致，退回改寫"
+    },
+    {
+      "from": "⑨",
+      "to": "⑧",
+      "label": "測試失敗",
+      "when": "任一功能測試失敗"
+    },
+    {
+      "from": "⑩",
+      "to": "⑨",
+      "label": "網址異常",
+      "when": "公開網址無法開啟或功能異常"
+    }
+  ],
+  "wiki_queries": [
+    {
+      "id": "Q1",
+      "query": "01-introduction.md：韓文是什麼、字母數量、音節方塊、歷史",
+      "used": "19 子音／21 母音共 40 字母之說、音節方塊結構、訓民正音相關年代與創制者，以及 S9／S7 的衝突說明",
+      "excluded": "【待補來源】項目；未取得官方全文的敘述"
+    },
+    {
+      "id": "Q2",
+      "query": "02-consonants.md：子音清單、緊音、羅馬字",
+      "used": "14 基本子音＋5 雙子音（緊音）、加畫規律、羅馬字（S2／S8 範圍內）",
+      "excluded": "各字母發音描述、平音／送氣音／緊音完整對照表（待補來源）"
+    },
+    {
+      "id": "Q3",
+      "query": "03-vowels.md：基本與複合母音",
+      "used": "10 基本母音＋11 複合母音、天地人設計、羅馬字",
+      "excluded": "方塊內母音排版規則（待補來源）"
+    },
+    {
+      "id": "Q4",
+      "query": "04-syllables-and-batchim.md：音節結構、七種代表音、雙收音",
+      "used": "初聲＋中聲＋可選終聲、七種終聲代表音、雙收音與連音說明（S8）",
+      "excluded": "ㅎ 收音讀法（待補來源）；其他音變"
+    },
+    {
+      "id": "Q5",
+      "query": "05-vocabulary.md：20 個日常單字",
+      "used": "20 個單字的韓文、羅馬字（推導）、中文、分類，與 sources.json 的 vocabulary_entries 三方一致",
+      "excluded": "諧音中文標音（使用者決定不用）；사과 的『道歉』義項不在 Wiki 表格，不顯示"
+    },
+    {
+      "id": "Q6",
+      "query": "06-conversation.md：5 組會話",
+      "used": "S9 為主的 13 句已驗證句；S10 僅作交叉比對標籤",
+      "excluded": "S10 單獨句子（만나서 반갑습니다、…입니다 等）；空白羅馬字的句子不給讀法、不提供朗讀"
+    },
+    {
+      "id": "Q7",
+      "query": "index.md：章節與來源對照",
+      "used": "章節 ↔ 來源 ID 對照，用於 Knowledge 頁的來源表",
+      "excluded": "無"
+    },
+    {
+      "id": "Q8",
+      "query": "sources/sources.json：狀態與驗證欄位",
+      "used": "11 筆 ingest 的狀態、取得範圍、human_check；failed_or_pending 與 rejected_candidates",
+      "excluded": "無；human_check 一律如實顯示為待處理"
+    }
+  ],
+  "validation_runs": [
+    {
+      "id": "V1",
+      "title": "資料階段首次驗證（data stage）",
+      "pass": 60,
+      "fail": 4,
+      "warn": 1,
+      "note": "發現 4 項問題，退回 ⑥ 修正",
+      "issues": [
+        "c1-features 的 evidence 含粗體標記，Wiki 內找不到（教學資料問題，已修）",
+        "c4-limits 文字出現『母音放右側』這類排版規則，屬待補來源（教學資料問題，已改為只說明『尚未涵蓋』）",
+        "會話句數預期值寫成 11，實際應為 13（驗證腳本本身的錯誤，已修）",
+        "사과 在 sources.json 為『蘋果；道歉』，Wiki 表格只有『蘋果』：既有檔案之間的不一致。未改動鎖定檔案，教學只顯示『蘋果』，驗證改為子集比對，並記錄於此"
+      ]
+    },
+    {
+      "id": "V2",
+      "title": "資料階段複驗",
+      "pass": 64,
+      "fail": 0,
+      "warn": 1,
+      "note": "4 項修正後全數通過；1 項警告為尚未建立 js/hangul.js（當時屬預期）",
+      "issues": []
+    },
+    {
+      "id": "V3",
+      "title": "完整驗證（含網站靜態檢查與 hangul.js node 測試）",
+      "pass": 85,
+      "fail": 0,
+      "warn": 0,
+      "note": "含鎖定檔雜湊保護、11172 音節與 NFD 對照",
+      "issues": []
+    }
+  ],
+  "tests": [
+    {
+      "id": "T01",
+      "name": "首頁內容與無錯誤載入",
+      "method": "Playwright／Chromium 桌機 1280×820",
+      "status": "passed",
+      "result": "6 張章節卡、標語、副標題、進度區皆存在"
+    },
+    {
+      "id": "T02",
+      "name": "投影片：上一頁、下一頁、進度條、章節目錄",
+      "method": "Chromium 桌機",
+      "status": "passed",
+      "result": "共 43 張；上一頁／下一頁／進度條／章節目錄皆可用"
+    },
+    {
+      "id": "T03",
+      "name": "鍵盤左右方向鍵切換",
+      "method": "Chromium 鍵盤事件",
+      "status": "passed",
+      "result": "← → 方向鍵切換正常"
+    },
+    {
+      "id": "T04",
+      "name": "所有投影片逐張載入與章節完成進度",
+      "method": "Chromium 逐張載入",
+      "status": "passed",
+      "result": "43 張投影片逐張載入、顯示 Wiki 與來源；首頁顯示完成章節 6/6"
+    },
+    {
+      "id": "T05",
+      "name": "子音卡片：翻面、切換、分類",
+      "method": "Chromium 桌機",
+      "status": "passed",
+      "result": "19 張（基本 14／緊音 5）；翻面、上一張／下一張、分類、背面羅馬字"
+    },
+    {
+      "id": "T06",
+      "name": "母音卡片：翻面、切換、分類",
+      "method": "Chromium 桌機",
+      "status": "passed",
+      "result": "21 張（基本 10／複合 11）"
+    },
+    {
+      "id": "T07",
+      "name": "字母組合器：Unicode 組合、清除、重新組合",
+      "method": "Chromium；與 unicodedata 獨立計算比對",
+      "status": "passed",
+      "result": "8 組點選結果與 unicodedata 一致；11172 個音節全數一致；U+D55C；清除／重新組合；ㅎ 收音不給讀法"
+    },
+    {
+      "id": "T08",
+      "name": "拼音組合練習",
+      "method": "Chromium",
+      "status": "passed",
+      "result": "正確／錯誤回饋、顯示正確拆解、選單內方向鍵不換頁"
+    },
+    {
+      "id": "T09",
+      "name": "單字翻牌（20 個）",
+      "method": "Chromium",
+      "status": "passed",
+      "result": "20 張單字逐張翻面，中文與羅馬字皆與資料一致；四個分類數量 6／5／4／5"
+    },
+    {
+      "id": "T10",
+      "name": "小測驗：作答、回饋、計分、重新作答",
+      "method": "Chromium",
+      "status": "passed",
+      "result": "15 題；答錯顯示『錯誤、正確答案、解釋、Wiki 章節與來源』；全部答對顯示 15/15"
+    },
+    {
+      "id": "T11",
+      "name": "學習進度：localStorage 保存與還原",
+      "method": "Chromium reload",
+      "status": "passed",
+      "result": "章節小測成績計入總分；重新整理後進度與位置保留（localStorage）"
+    },
+    {
+      "id": "T12",
+      "name": "儲存降級：localStorage 不可用",
+      "method": "Chromium，注入 localStorage 例外",
+      "status": "passed",
+      "result": "localStorage 拋出 SecurityError 時，網站仍可作答；進度改存記憶體並提示"
+    },
+    {
+      "id": "T13",
+      "name": "語音降級：瀏覽器不支援 Web Speech API",
+      "method": "Chromium，移除 speechSynthesis",
+      "status": "passed",
+      "result": "不支援 Web Speech API 時顯示提示，翻牌與組合器仍正常，無 JS 錯誤"
+    },
+    {
+      "id": "T14",
+      "name": "語音降級：沒有韓文（ko）語音",
+      "method": "Chromium，speechSynthesis 替身（無 ko 語音）",
+      "status": "passed",
+      "result": "有語音引擎但沒有韓文語音時，顯示提示且不播放"
+    },
+    {
+      "id": "T15",
+      "name": "語音：ko-KR 呼叫正確",
+      "method": "Chromium，speechSynthesis 替身（有 ko-KR）",
+      "status": "passed",
+      "result": "有 ko-KR 語音時，utterance.lang 為 ko-KR，且播放的文字正確（以替身物件驗證，非真實發音）"
+    },
+    {
+      "id": "T16",
+      "name": "手機版（390×844 模擬）版面與目錄",
+      "method": "Chromium 手機模擬 390×844",
+      "status": "passed",
+      "result": "390px 寬：首頁、43 張投影片、測驗、Knowledge 頁皆無橫向溢出；目錄可收合；觸控目標 ≥ 40px"
+    },
+    {
+      "id": "T17",
+      "name": "手機觸控滑動切換",
+      "method": "Chromium 合成 TouchEvent",
+      "status": "passed",
+      "result": "左滑下一頁、右滑上一頁、短距離不換頁（以合成 TouchEvent 驗證，非真實手指）"
+    },
+    {
+      "id": "T18",
+      "name": "Knowledge & Workflow 頁面",
+      "method": "Chromium",
+      "status": "passed",
+      "result": "8 個區塊、來源表 11 列、流程圖 10 節點與 5 條返回路徑、人工核對狀態與排除項目"
+    },
+    {
+      "id": "T19",
+      "name": "以 file:// 直接開啟",
+      "method": "Chromium 以 file:// 開啟",
+      "status": "passed",
+      "result": "file:// 開啟：fetch 被瀏覽器擋下，網站顯示友善錯誤與『python3 -m http.server』解法（非空白頁）"
+    },
+    {
+      "id": "T20",
+      "name": "子路徑部署模擬（相對路徑）",
+      "method": "本機 HTTP 子路徑 /hangul-room/",
+      "status": "passed",
+      "result": "網站放在 /hangul-room/ 子路徑時，所有資料以相對路徑載入成功（模擬 GitHub Pages 專案頁面，非真實部署）"
+    },
+    {
+      "id": "T21",
+      "name": "畫面內容規則（待補、推論、S10、人工核對）",
+      "method": "Chromium 掃描全部畫面文字",
+      "status": "passed",
+      "result": "全部投影片與測驗文字中，沒有待補來源標記、S10 單獨句子，也沒有宣稱已人工驗證"
+    },
+    {
+      "id": "T22",
+      "name": "沒有外部資源依賴",
+      "method": "Chromium 網路請求清單",
+      "status": "passed",
+      "result": "共 8 個請求，全部來自本機站點，沒有 CDN／外部字型"
+    },
+    {
+      "id": "N1",
+      "name": "Firefox／Safari／Edge 實機測試",
+      "method": "—",
+      "status": "not_run",
+      "result": "未安裝這些瀏覽器"
+    },
+    {
+      "id": "N2",
+      "name": "真實手機（iOS／Android）操作與觸控",
+      "method": "—",
+      "status": "not_run",
+      "result": "只做 Chromium 手機模擬與合成觸控事件"
+    },
+    {
+      "id": "N3",
+      "name": "真實韓文語音播放與發音品質",
+      "method": "—",
+      "status": "not_run",
+      "result": "只驗證程式呼叫 ko-KR 與降級流程，沒有聽音"
+    },
+    {
+      "id": "N4",
+      "name": "來源人工核對（human_check）",
+      "method": "—",
+      "status": "not_run",
+      "result": "需使用者開原頁核對，全部維持 pending"
+    },
+    {
+      "id": "N5",
+      "name": "GitHub Pages 實際部署與公開網址",
+      "method": "—",
+      "status": "not_run",
+      "result": "保留給第四階段，尚未部署"
+    }
+  ],
+  "log": [
+    {
+      "phase": "第二階段",
+      "no": "①②",
+      "step": "蒐集並 ingest 11 個來源",
+      "result": "成功",
+      "note": "krdict 手建網址失敗（F-01）、並行擷取 9/19 被限流（F-02），改用 dicMarinerSearch 並分批重試後成功"
+    },
+    {
+      "phase": "第二階段",
+      "no": "③④",
+      "step": "內容檢查與建立 Wiki",
+      "result": "成功",
+      "note": "修正第 6 章羅馬字註記矛盾、第 5 章重複標題、S11 範圍描述"
+    },
+    {
+      "phase": "第三階段",
+      "no": "⑤⑥",
+      "step": "查詢 Wiki、整理 slides.json／quiz.json",
+      "result": "成功",
+      "note": "43 張投影片、15 題測驗；每項附 evidence 字串"
+    },
+    {
+      "phase": "第三階段",
+      "no": "⑦",
+      "step": "validate.py 首次驗證",
+      "result": "失敗",
+      "note": "FAIL 4（見 V1）→ 返回 ⑥ 修正，其中 1 項為驗證腳本自身錯誤"
+    },
+    {
+      "phase": "第三階段",
+      "no": "⑦",
+      "step": "validate.py 複驗",
+      "result": "成功",
+      "note": "V2 64/0/1；V3 85/0/0"
+    },
+    {
+      "phase": "第三階段",
+      "no": "⑧",
+      "step": "生成 index.html、css、js",
+      "result": "成功",
+      "note": "純靜態、無 CDN、相對路徑"
+    },
+    {
+      "phase": "第三階段",
+      "no": "⑨",
+      "step": "瀏覽器測試第 1 輪",
+      "result": "失敗",
+      "note": "19/22。T07：測試預期值 끟 為手寫錯誤，實際 끻 才正確（測試腳本錯誤，改以 unicodedata 獨立計算）；T02、T16：測試腳本直接點未展開章節的目錄項（腳本操作錯誤，改為先展開章節）。網站本身沒有因此修改"
+    },
+    {
+      "phase": "第三階段",
+      "no": "⑨",
+      "step": "瀏覽器測試第 2 輪",
+      "result": "成功",
+      "note": "22/22 通過（Chromium）。另在測試前加固 app.js：指定語音失敗時改以 lang=ko-KR 播放"
+    },
+    {
+      "phase": "第三階段",
+      "no": "⑩",
+      "step": "GitHub Pages 部署",
+      "result": "部分",
+      "note": "未執行，保留給第四階段"
+    }
+  ],
+  "excluded": [
+    {
+      "item": "S10 單獨出現的會話句（만나서 반갑습니다、…입니다 等）",
+      "reason": "S10 為工具重建、韓文尚未人工核對，不單獨作為教學內容"
+    },
+    {
+      "item": "ㅎ 收音讀法",
+      "reason": "待補來源；組合器只顯示『待補來源』"
+    },
+    {
+      "item": "方塊內母音排版規則、音變、敬語等級",
+      "reason": "待補來源，簡報只標示尚未涵蓋"
+    },
+    {
+      "item": "平音／送氣音／緊音完整對照表、各字母發音描述",
+      "reason": "待補來源"
+    },
+    {
+      "item": "이름이 뭐예요？等句的羅馬字與朗讀",
+      "reason": "Wiki 標為推論，未經驗證，不顯示羅馬字；含空白欄位的句子不提供朗讀"
+    },
+    {
+      "item": "사과 的『道歉』義項",
+      "reason": "Wiki 表格僅『蘋果』，與 sources.json 不一致，以 Wiki 為準"
+    },
+    {
+      "item": "中文諧音標音",
+      "reason": "使用者決定不使用"
+    }
+  ]
+}
